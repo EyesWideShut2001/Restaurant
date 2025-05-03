@@ -38,7 +38,6 @@ public class RestaurantApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(RestaurantApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 480, 480);
         stage.setTitle("Hello!");
-        stage.setScene(scene);
         stage.show();
     }
 
