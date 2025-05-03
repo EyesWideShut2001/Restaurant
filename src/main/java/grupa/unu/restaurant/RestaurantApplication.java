@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class HelloApplication extends Application {
+public class RestaurantApplication extends Application {
 
     private Server tcpServer, webServer;
 
@@ -34,7 +34,8 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException, SQLException {
 
         Connection connection = RestaurantDb.getConnection();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+
+        FXMLLoader fxmlLoader = new FXMLLoader(RestaurantApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 480, 480);
         stage.setTitle("Hello!");
         stage.setScene(scene);

@@ -64,7 +64,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>grupa.unu.restaurant/grupa.unu.restaurant.HelloApplication</mainClass>
+                            <mainClass>grupa.unu.restaurant/grupa.unu.restaurant.RestaurantApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

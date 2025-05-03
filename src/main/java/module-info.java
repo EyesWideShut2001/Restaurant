@@ -3,8 +3,11 @@ module grupa.unu.restaurant {
     requires javafx.fxml;
     requires java.sql;
     requires com.h2database;
+    requires java.desktop;
 
 
     opens grupa.unu.restaurant to javafx.fxml;
     exports grupa.unu.restaurant;
+    exports grupa.unu.restaurant.controller;
+    opens grupa.unu.restaurant.controller to javafx.fxml;
 }

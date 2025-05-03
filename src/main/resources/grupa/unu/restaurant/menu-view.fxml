@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="grupa.unu.restaurant.controller.MenuViewController"
+      prefWidth="480" prefHeight="480">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Menu" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="20" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints halignment="LEFT"/>
+        </columnConstraints>
+
+
+        <!--m- am gandit sa avem un singur view comun pt toate cele trei
+         categorii de useri, iar la staff si manager vor exista optiuni in plus -->
+
+        <Label text="Aperitive" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label text="Feluri principale" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Label text="Băuturi spirtoase" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label text="Băuturi nespirtoase" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+    </GridPane>
+
+    <!-- Buton opțional(in teorie ar trebui sa nu existe) pentru revenire -->
+    <Button fx:id="backButton" text="Back" onAction="#handleBackClick"/>
+
+
+    <!-- Acestea sunt optiuni in plus(pt staff/manager); ele sunt by defaul puse pe false,
+        iar din MenuViewController se pune pe true cand e nevoie -->
+
+    <Button fx:id="addMenuItemsButton" text="Add Menu Items" visible="false"/>
+    <Button fx:id="staffSpecialButton" text="Staff Options" visible="false"/>
+
+
+
+</VBox>
