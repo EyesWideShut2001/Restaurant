@@ -12,4 +12,8 @@ module grupa.unu.restaurant {
     exports grupa.unu.restaurant.repository;
     exports grupa.unu.restaurant.model;
     opens grupa.unu.restaurant.controller to javafx.fxml;
+    exports view;
+    opens view to javafx.fxml;
+    exports grupa.unu.restaurant.view;
+    opens grupa.unu.restaurant.view to javafx.fxml;
 }

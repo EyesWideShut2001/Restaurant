@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="grupa.unu.restaurant.view.ManagerProductsController" spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+    <Label text="Adaugă/Actualizează produs"/>
+
+    <TextField fx:id="txtNume" promptText="Nume produs"/>
+    <TextField fx:id="txtIngrediente" promptText="Ingrediente"/>
+    <TextField fx:id="txtPret" promptText="Preț"/>
+
+    <CheckBox fx:id="chkVegetarian" text="Vegetarian"/>
+    <CheckBox fx:id="chkPicant" text="Picant"/>
+    <CheckBox fx:id="chkAlcoolica" text="Alcoolică (doar pt băuturi)"/>
+
+    <ComboBox fx:id="cmbCategorie">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Aperitive"/>
+                <String fx:value="Fel Principal"/>
+                <String fx:value="Băuturi nespirtoase"/>
+                <String fx:value="Băuturi spirtoase"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
+
+    <Button text="Salvează" onAction="#handleSalveaza"/>
+</VBox>
