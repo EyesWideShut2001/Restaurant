@@ -3,6 +3,7 @@ package grupa.unu.restaurant.controller;
 import grupa.unu.restaurant.model.Order;
 import grupa.unu.restaurant.service.OrderService;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,16 +14,16 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    public void createOrder(Order order) {
+    public void createOrder(Order order) throws SQLException {
         orderService.createOrder(order);
         System.out.println("Order creat cu succes: " + order);
     }
 
-    public List<Order> getAllOrders(){
+    public List<Order> getAllOrders() throws SQLException {
         return orderService.getAllOrders();
     }
 
-    public Optional<Order> getOrderById(Long id){
+    public Optional<Order> getOrderById(Long id) throws SQLException {
         Optional<Order> order =  orderService.getOrdersById(id);
 
         order.ifPresentOrElse(
@@ -32,7 +33,7 @@ public class OrderController {
         return order;
     }
 
-    public void deleteOrderById(Long id){
+    public void deleteOrderById(Long id) throws SQLException {
         orderService.deleteOrderById(id);
         System.out.println("Order cu id: " + id + " a fost sters cu succes!");
     }
