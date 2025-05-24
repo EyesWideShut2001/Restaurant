@@ -1,4 +1,4 @@
-CREATE TABLE customer (
+CREATE TABLE IF NOT EXISTS customer (
                           customer_id   INT AUTO_INCREMENT PRIMARY KEY,
                           first_name    VARCHAR(50) NOT NULL,
                           last_name     VARCHAR(50) NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE customer (
                           phone         VARCHAR(20),
                           created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE payments (
+CREATE TABLE IF NOT EXISTS payments (
                           order_id BIGINT,
                           amount DOUBLE,
                           payment_method VARCHAR,
@@ -25,6 +25,22 @@ CREATE TABLE IF NOT EXISTS staff (
     username VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     role VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+    id_order BIGINT PRIMARY KEY,
+    total_price DOUBLE,
+    status VARCHAR,              -- Stores order status (from OrderStatus enum)
+    estimated_time INTEGER       -- Estimated preparation time in minutes
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+   id_item BIGINT,
+   order_id BIGINT,            -- Foreign key to orders.id_order
+   name VARCHAR,
+   price DOUBLE,
+   quantity INTEGER,
+   FOREIGN KEY (order_id) REFERENCES orders(id_order)
 );
 
 INSERT INTO manager (username, password)

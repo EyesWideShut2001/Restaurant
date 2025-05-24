@@ -15,8 +15,9 @@ import java.util.Optional;
 
 public class OrderRepository {
 
+
     public Order save(Order order) throws SQLException {
-        String orderInsertQuery = "INSERT INTO orders (id_order, total_price) VALUES (?, ?)";
+        String orderInsertQuery = "INSERT INTO orders (id_order, total_price, status, estimated_time) VALUES (?, ?, ?, ?)";
         String orderItemInsertQuery = "INSERT INTO order_items (id_item, order_id, name, price, quantity) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = RestaurantDb.getConnection();
@@ -30,6 +31,8 @@ public class OrderRepository {
                 // Save the Order
                 orderStatement.setLong(1, order.getId());
                 orderStatement.setDouble(2, order.getTotalPrice());
+                orderStatement.setString(3, order.getOrderStatus().name());
+                orderStatement.setInt(4, order.getEstimatedTime());
                 orderStatement.executeUpdate();
 
                 // Save each OrderItem
@@ -75,7 +78,9 @@ public class OrderRepository {
                 Order order = new Order(
                         orderResultSet.getLong("id_order"),
                         new ArrayList<>(), // Items will be fetched later
-                        orderResultSet.getDouble("total_price")
+                        orderResultSet.getDouble("total_price"),
+                        OrderStatus.valueOf(orderResultSet.getString("status")),
+                        orderResultSet.getInt("estimatedTime")
                 );
 
                 // Fetch related OrderItems for the current Order
@@ -119,7 +124,9 @@ public class OrderRepository {
                     Order order = new Order(
                             orderResultSet.getLong("id_order"),
                             new ArrayList<>(), // Items will be fetched later
-                            orderResultSet.getDouble("total_price")
+                            orderResultSet.getDouble("total_price"),
+                            OrderStatus.valueOf(orderResultSet.getString("status")),
+                            orderResultSet.getInt("estimatedTime")
                     );
 
                     // Fetch related OrderItems

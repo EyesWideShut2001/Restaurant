@@ -6,14 +6,33 @@ public class Order {
     private Long id;
     private List<OrderItem> items;
     private double totalPrice;
+    private OrderStatus orderStatus;
+    private int estimatedTime;
 
     public Order(){}
 
-
-    public Order(Long id, List<OrderItem> items, double totalPrice) {
+    public Order(Long id, List<OrderItem> items, double totalPrice, OrderStatus orderStatus, int estimatedTime) {
         this.id = id;
         this.items = items;
         this.totalPrice = totalPrice;
+        this.orderStatus = orderStatus;
+        this.estimatedTime = estimatedTime;
+    }
+
+    public int getEstimatedTime() {
+        return estimatedTime;
+    }
+
+    public void setEstimatedTime(int estimatedTime) {
+        this.estimatedTime = estimatedTime;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public Long getId() {
