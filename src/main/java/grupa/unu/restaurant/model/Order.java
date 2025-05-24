@@ -1,64 +1,74 @@
 package grupa.unu.restaurant.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order {
-    private Long id;
+    private int orderId;
+    private Client client;
     private List<OrderItem> items;
-    private double totalPrice;
+    private OrderStatus status;
+    private LocalDateTime orderTime;
+    private int estimatedTime; // în minute
 
-    public Order(){}
-
-
-    public Order(Long id, List<OrderItem> items, double totalPrice) {
-        this.id = id;
+    public Order(int orderId, Client client, List<OrderItem> items) {
+        this.orderId = orderId;
+        this.client = client;
         this.items = items;
-        this.totalPrice = totalPrice;
+        this.status = OrderStatus.IN_ASTEPTARE;
+        this.orderTime = LocalDateTime.now();
+        this.estimatedTime = 0;
     }
 
-    public Long getId() {
-        return id;
+    public double calculateTotal() {
+        double total = 0.0;
+        for (OrderItem item : items) {
+            total += item.calculateSubtotal();
+        }
+        return total;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void updateStatus(OrderStatus newStatus) {
+        this.status = newStatus;
+    }
+
+    public void setEstimatedTime(int estimatedTime) {
+        this.estimatedTime = estimatedTime;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public Client getClient() {
+        return client;
     }
 
     public List<OrderItem> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
+    public OrderStatus getStatus() {
+        return status;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public LocalDateTime getOrderTime() {
+        return orderTime;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public int getEstimatedTime() {
+        return estimatedTime;
     }
 
-    public void updateTotalPrice(){
-        this.totalPrice = this.items.stream().mapToDouble(OrderItem::getPrice).sum();
-    }
-
-    public void addItem(OrderItem item){
-        this.items.add(item);
-        this.updateTotalPrice();
-    }
-
-    public void removeItem(OrderItem item){
-        this.items.remove(item);
-        this.updateTotalPrice();
-    }
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
-                ", items=" + items +
-                ", totalPrice=" + totalPrice +
+                "orderId=" + orderId +
+                ", client=" + client.getUsername() +
+                ", status=" + status +
+                ", orderTime=" + orderTime +
+                ", estimatedTime=" + estimatedTime + " min" +
                 '}';
     }
 }
+
