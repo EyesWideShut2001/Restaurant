@@ -8,6 +8,14 @@ public class CardPayment extends Payment {
         this.cardNumber = cardNumber;
     }
 
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
     @Override
     public void processPayment() {
         System.out.println("Plata cu cardul în valoare de " + amount + " RON (card: " + cardNumber + ") a fost efectuată.");
