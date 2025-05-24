@@ -3,6 +3,7 @@ package grupa.unu.restaurant.repository;
 import grupa.unu.restaurant.RestaurantDb;
 import grupa.unu.restaurant.model.Order;
 import grupa.unu.restaurant.model.OrderItem;
+import grupa.unu.restaurant.model.OrderStatus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -181,6 +182,26 @@ public class OrderRepository {
                 // Reset auto-commit to true
                 connection.setAutoCommit(true);
             }
+        }
+    }
+
+    public boolean updateOrderStatus(Long orderId, OrderStatus status) throws SQLException {
+        String sql = "UPDATE orders SET status = ? WHERE id_order = ?";
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, status.name());
+            stmt.setLong(2, orderId);
+            return stmt.executeUpdate() == 1;
+        }
+    }
+
+    public boolean updateEstimatedTime(long orderId, int estimatedTime) throws SQLException {
+        String sql = "UPDATE orders SET estimated_time = ? WHERE id_order = ?";
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, estimatedTime);
+            stmt.setLong(2, orderId);
+            return stmt.executeUpdate() == 1;
         }
     }
 }

@@ -21,7 +21,7 @@ public class Receipt {
         System.out.println("           CHITANȚĂ              ");
         System.out.println("=================================");
         System.out.println("Nr. chitanță:      " + receiptNumber);
-        System.out.println("Comanda ID:        " + order.getOrderId());
+        System.out.println("Comanda ID:        " + order.getId());
         System.out.printf("Sumă totală:      %8.2f RON%n", payment.amount);
         System.out.println("Metodă plată:      " + (payment instanceof CashPayment ? "Numerar" : "Card"));
         System.out.println("Data emitere:      " +  issueDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
