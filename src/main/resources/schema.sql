@@ -6,7 +6,14 @@ CREATE TABLE customer (
                           phone         VARCHAR(20),
                           created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+CREATE TABLE payments (
+                          order_id BIGINT,
+                          amount DOUBLE,
+                          payment_method VARCHAR,
+                          card_number VARCHAR,
+                          receipt_number VARCHAR,
+                          payment_date TIMESTAMP
+);
 CREATE TABLE IF NOT EXISTS manager (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100) NOT NULL UNIQUE,
