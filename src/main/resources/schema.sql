@@ -43,6 +43,16 @@ CREATE TABLE IF NOT EXISTS order_items (
    FOREIGN KEY (order_id) REFERENCES orders(id_order)
 );
 
+CREATE TABLE IF NOT EXISTS menu (
+                      nume VARCHAR PRIMARY KEY,    -- Item name
+                      ingrediente VARCHAR,         -- List of ingredients
+                      vegetarian BOOLEAN,         -- Whether the item is vegetarian
+                      picant BOOLEAN,            -- Whether the item is spicy
+                      pret DOUBLE,               -- Price
+                      categorie VARCHAR,         -- Category (Aperitive, Fel Principal, or beverage category)
+                      alcoolica BOOLEAN          -- Whether the beverage contains alcohol (null for non-beverages)
+);
+
 INSERT INTO manager (username, password)
 SELECT 'admin@restaurant.null', 'adminRestaurantMagic12'
 WHERE NOT EXISTS (
