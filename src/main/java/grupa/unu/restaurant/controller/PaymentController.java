@@ -18,10 +18,8 @@ public class PaymentController {
     }
 
     public void confirmOrderAndProcessCardPayment(Long orderId, double amount, String cardNumber) throws SQLException {
-        Order order = orderRepository.findById(orderId);
-        if (order == null) {
-            throw new IllegalArgumentException("Comanda nu există!");
-        }
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new IllegalArgumentException("Comanda nu există!"));
 
         // Validate card number
         if (!isValidCardNumber(cardNumber)) {
@@ -36,10 +34,8 @@ public class PaymentController {
     }
 
     public void confirmOrderAndProcessCashPayment(Long orderId, double amount) throws SQLException {
-        Order order = orderRepository.findById(orderId);
-        if (order == null) {
-            throw new IllegalArgumentException("Comanda nu există!");
-        }
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new IllegalArgumentException("Comanda nu există!"));
 
         CashPayment payment = new CashPayment(amount, order);
         String receiptNumber = processOrderPayment(order, payment);
@@ -51,8 +47,7 @@ public class PaymentController {
     private String processOrderPayment(Order order, Payment payment) throws SQLException {
         payment.processPayment();
 
-        order.setStatus("CONFIRMED");
-        orderRepository.updateOrderStatus(order.getId(), "CONFIRMED");
+        orderRepository.updateOrderStatus(order.getId(), OrderStatus.SERVITA);
 
         String receiptNumber = generateReceiptNumber();
         paymentRepository.savePayment(payment, order.getId(), receiptNumber);
