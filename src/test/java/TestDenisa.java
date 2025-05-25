@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDenisa {
 
+
+    // Testează dacă constructorul setează corect valorile inițiale
     @Test
     void testConstructorInitialValues() {
         LocalDateTime now = LocalDateTime.now();
@@ -20,6 +22,7 @@ public class TestDenisa {
         assertEquals(now, record.getPaymentDate());
     }
 
+    // Testează funcționarea setter-elor și getter-elor
     @Test
     void testSettersAndGetters() {
         PaymentRecord record = new PaymentRecord(0L, 0.0, "", "", "", null);
@@ -40,6 +43,7 @@ public class TestDenisa {
         assertEquals(date, record.getPaymentDate());
     }
 
+    //  Testează proprietatea `orderIdProperty
     @Test
     void testOrderIdProperty() {
         PaymentRecord record = new PaymentRecord(5L, 0, "", "", "", LocalDateTime.now());
@@ -47,6 +51,7 @@ public class TestDenisa {
         assertEquals(42L, record.getOrderId());
     }
 
+    // Testează actualizarea valorii sumei prin intermediul proprietății `amountProperty`
     @Test
     void testAmountPropertyBinding() {
         PaymentRecord record = new PaymentRecord(1L, 25.5, "", "", "", LocalDateTime.now());
@@ -54,6 +59,7 @@ public class TestDenisa {
         assertEquals(35.5, record.getAmount());
     }
 
+    // Testează comportamentul obiectului când data plății este null
     @Test
     void testNullPaymentDate() {
         PaymentRecord record = new PaymentRecord(1L, 10.0, "Cash", "", "RCPXYZ", null);
