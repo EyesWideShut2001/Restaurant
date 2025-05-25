@@ -5,7 +5,8 @@
 <?import javafx.geometry.Insets?>
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      stylesheets="@../styles.css"
+      fx:controller="grupa.unu.restaurant.controller.StaffOrdersController"
+      stylesheets="@../grupa/unu/restaurant/styles.css"
       spacing="10">
 
     <!-- Header -->
@@ -15,6 +16,7 @@
         </padding>
         <Button text="← Înapoi" onAction="#backToMenu" styleClass="secondary-button"/>
         <Button text="Istoric Plăți" onAction="#showPayments" styleClass="primary-button"/>
+        <Button text="Administrare meniu" onAction="#handleOpenStaffMenu" styleClass="primary-button"/>
         <Label fx:id="statusLabel" styleClass="status-label"/>
     </HBox>
 

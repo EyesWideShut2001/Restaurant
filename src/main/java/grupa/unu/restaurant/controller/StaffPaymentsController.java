@@ -158,10 +158,10 @@ public class StaffPaymentsController {
             Connection connection = RestaurantDb.getConnection();
             OrderRepository orderRepository = new OrderRepository(connection);
             OrderService orderService = new OrderService(orderRepository);
-            StaffOrdersController controller = new StaffOrdersController(orderService, "staff"); // Default to "staff" since we don't have the actual username
-            loader.setController(controller);
-            
             Scene scene = new Scene(loader.load());
+            StaffOrdersController controller = loader.getController();
+            controller.setOrderService(orderService);
+            controller.setStaffUsername("staff");
             Stage stage = (Stage) paymentsTable.getScene().getWindow();
             stage.setScene(scene);
             stage.setWidth(1024);

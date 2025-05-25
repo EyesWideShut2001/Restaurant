@@ -11,7 +11,7 @@ public class MenuItem {
     private final BooleanProperty vegetarian;
     private final BooleanProperty spicy;
     private final BooleanProperty alcoholic;
-    private final BooleanProperty available; // disponibilitate
+    private final BooleanProperty available;
 
     public MenuItem() {
         this.id = new SimpleLongProperty();
@@ -22,7 +22,7 @@ public class MenuItem {
         this.vegetarian = new SimpleBooleanProperty();
         this.spicy = new SimpleBooleanProperty();
         this.alcoholic = new SimpleBooleanProperty();
-        this.available = new SimpleBooleanProperty(true); // implicit disponibil
+        this.available = new SimpleBooleanProperty(true);
     }
 
     public MenuItem(long id, String name, String category, double price, String ingredients,

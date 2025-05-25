@@ -67,9 +67,10 @@ CREATE TABLE menu (
     picant BOOLEAN,
     pret DOUBLE,
     categorie VARCHAR(100),
-    alcoolica BOOLEAN
-    
+    alcoolica BOOLEAN,
+    available BOOLEAN DEFAULT TRUE
 );
+
 
 -- Insert default manager account
 INSERT INTO manager (username, password) 

@@ -138,11 +138,19 @@ public class MenuViewController {
 
         box.getChildren().addAll(nameLabel, priceLabel);
 
-        Button addButton = new Button("Add to Cart");
-        addButton.getStyleClass().add("primary-button");
-        addButton.setOnAction(e -> addToCart(item.getName(), item.getPrice()));
-        
-        HBox buttonBox = new HBox(5, addButton, infoButton);
+        HBox buttonBox = new HBox(5);
+
+        if (item.isAvailable()) {
+            Button addButton = new Button("Add to Cart");
+            addButton.getStyleClass().add("primary-button");
+            addButton.setOnAction(e -> addToCart(item.getName(), item.getPrice()));
+            buttonBox.getChildren().addAll(addButton, infoButton);
+        } else {
+            Label unavailableLabel = new Label("indisponibil");
+            unavailableLabel.getStyleClass().add("unavailable-label");
+            buttonBox.getChildren().addAll(unavailableLabel, infoButton);
+        }
+
         box.getChildren().add(buttonBox);
 
         return box;

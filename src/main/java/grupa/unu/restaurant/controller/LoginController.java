@@ -77,10 +77,10 @@ public class LoginController {
             Connection connection = RestaurantDb.getConnection();
             OrderRepository orderRepository = new OrderRepository(connection);
             OrderService orderService = new OrderService(orderRepository);
-            StaffOrdersController controller = new StaffOrdersController(orderService, username);
-            loader.setController(controller);
-            
             Parent root = loader.load();
+            StaffOrdersController controller = loader.getController();
+            controller.setOrderService(orderService);
+            controller.setStaffUsername(username);
             Stage stage = (Stage) usernameField.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
