@@ -8,15 +8,19 @@ import java.util.stream.Collectors;
 public class Meniu {
     private List<MenuItem> items;
 
+    //Listă care stochează toate produsele din meniu
     public Meniu() {
         this.items = new ArrayList<>();
     }
 
+    //Constructor care inițializează lista goală de produse.
     public Map<String, List<MenuItem>> getItemsByCategory() {
         return items.stream()
                 .collect(Collectors.groupingBy(MenuItem::getCategory));
     }
 
+   // Metodă care grupează produsele după categorie
+   // (ex: Aperitive, Fel principal) și returnează un Map cu categoria ca și cheie și lista produselor ca valoare.
     public void addItem(MenuItem item) {
         items.add(item);
     }
@@ -35,6 +39,8 @@ public class Meniu {
         }
     }
 
+ // schimbă disponibilitatea unui produs după numele lui
+ // (ex: să marcheze produsul ca „disponibil” sau „indisponibil”
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

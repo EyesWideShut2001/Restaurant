@@ -29,6 +29,8 @@ public class MenuController {
     private final MenuRepository menuRepository;
     private final CartService cartService;
 
+   //Instanțe pentru accesul la meniul
+   // din baza de date și pentru gestionarea coșului
     public MenuController() {
         this.menuRepository = new MenuRepository();
         this.cartService = CartService.getInstance();
@@ -48,7 +50,7 @@ public class MenuController {
             showError("Eroare la încărcarea meniului", e.getMessage());
         }
     }
-
+    // Încarcă lista de produse din baza de date și afișează meniul
     private void displayMenuItems(List<MenuItem> items) {
         menuContainer.getChildren().clear();
         
@@ -66,7 +68,8 @@ public class MenuController {
                  });
              });
     }
-
+    //Șterge elementele vechi și afișează meniul
+    // grupat pe categorii (ex: Aperitive, Fel principal).
     private VBox createMenuItemBox(MenuItem item) {
         VBox itemBox = new VBox(5);
         itemBox.getStyleClass().add("menu-item");
@@ -87,7 +90,7 @@ public class MenuController {
         itemBox.getChildren().addAll(nameLabel, priceLabel, addToCartButton, infoButton);
         return itemBox;
     }
-
+   // adaugare produs in cos
     private void addToCart(MenuItem menuItem) {
         OrderItem orderItem = new OrderItem(
             menuItem.getName(),
@@ -104,6 +107,8 @@ public class MenuController {
         alert.showAndWait();
     }
 
+   // Când se apasă "Adaugă în coș", creează un item de comandă, îl adaugă
+   // în coș, actualizează etichetele și arată un mesaj de confirmare
     private void updateCartStatus() {
         int itemCount = cartService.getCartItems().size();
         double total = cartService.getTotal();
@@ -111,7 +116,7 @@ public class MenuController {
         cartCountLabel.setText(String.format("%d produse", itemCount));
         cartTotalLabel.setText(String.format("%.2f RON", total));
     }
-
+    //Actualizează afișajul pentru numărul de produse și totalul în coș
     @FXML
     private void viewCart() {
         try {
@@ -124,6 +129,7 @@ public class MenuController {
             showError("Eroare", "Nu s-a putut încărca coșul de cumpărături.");
         }
     }
+
 
     private void showItemInfo(MenuItem item) {
         try {
