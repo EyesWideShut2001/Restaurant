@@ -35,17 +35,20 @@ public class CustomerOrdersController {
     @FXML private Label estimatedTimeLabel;
     @FXML private TextArea orderNotesField;
     
-    private final OrderService orderService;
+    private OrderService orderService;
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
     
     public CustomerOrdersController(OrderService orderService) {
         this.orderService = orderService;
     }
-    
+
+    public CustomerOrdersController() {
+        // poți lăsa gol; vei injecta OrderService ulterior
+    }
     @FXML
     public void initialize() {
         setupTable();
-        loadOrders();
+
         
         // Add selection listener for showing order details
         ordersTable.getSelectionModel().selectedItemProperty().addListener(
@@ -75,7 +78,7 @@ public class CustomerOrdersController {
         totalColumn.setCellValueFactory(cellData -> 
             new SimpleObjectProperty<>(cellData.getValue().getTotalPrice()));
     }
-    
+
     @FXML
     public void loadOrders() {
         try {
@@ -124,11 +127,11 @@ public class CustomerOrdersController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/grupa/unu/restaurant/menu-view.fxml"));
             Parent root = loader.load();
-            
+
             // Set the role back to customer
             MenuViewController controller = loader.getController();
             controller.setUserRole("customer");
-            
+
             Stage stage = (Stage) ordersTable.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -149,5 +152,10 @@ public class CustomerOrdersController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+        loadOrders(); // sau orice metodă care actualizează view-ul
     }
 } 

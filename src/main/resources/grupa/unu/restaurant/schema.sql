@@ -68,6 +68,7 @@ CREATE TABLE menu (
     pret DOUBLE,
     categorie VARCHAR(100),
     alcoolica BOOLEAN
+    
 );
 
 -- Insert default manager account
@@ -82,11 +83,11 @@ VALUES
 ('bartender1', 'XVuH0cKCqBP/GWJ5pX5dXQ==$R8L/iGeF/laZiGoBeUs3O909f5dT5309np/ypmqrTNk=', 'STAFF');
 
 -- Insert default menu items
-INSERT INTO menu (nume, ingrediente, vegetarian, picant, pret, categorie, alcoolica) 
-VALUES 
+INSERT INTO menu (nume, ingrediente, vegetarian, picant, pret, categorie, alcoolica)
+VALUES
 ('Bruschete cu roșii', 'Pâine, roșii, usturoi, busuioc, ulei de măsline', true, false, 18.00, 'Aperitive', false),
 ('Bruschete cu pesto', 'Pâine, busuioc, usturoi, parmezan, pin, ulei de măsline', true, false, 20.00, 'Aperitive', false),
 ('Bruschete cu somon', 'Pâine, somon afumat, cremă de brânză, mărar', false, false, 25.00, 'Aperitive', false),
 ('Apă plată', 'Apă minerală naturală', true, false, 8.00, 'Băuturi nespirtoase', false),
 ('Apă minerală', 'Apă minerală carbogazoasă', true, false, 8.00, 'Băuturi nespirtoase', false),
-('Limonadă', 'Lămâie, apă minerală, zahăr, mentă', true, false, 15.00, 'Băuturi nespirtoase', false); 
+('Limonadă', 'Lămâie, apă minerală, zahăr, mentă', true, false, 15.00, 'Băuturi nespirtoase', false);

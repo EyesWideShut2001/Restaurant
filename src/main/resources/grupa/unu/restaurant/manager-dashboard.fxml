@@ -2,31 +2,34 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="grupa.unu.restaurant.controller.ManagerDashboardController"
       stylesheets="@styles.css">
 
+    <!-- Top Bar: Menu + Logout -->
     <HBox alignment="CENTER_LEFT">
         <MenuBar HBox.hgrow="ALWAYS">
             <Menu text="File">
                 <MenuItem text="Exit" onAction="#handleExit"/>
             </Menu>
         </MenuBar>
-        <Button text="Deconectare" onAction="#handleLogout" 
+        <Button text="Istoric Plăți" fx:id="paymentsButton" onAction="#showPayments"
+                style="-fx-background-color: #5bde6f; -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 4 8;"/>
+
+        <Button text="Deconectare" onAction="#handleLogout"
                 style="-fx-background-color: #ff4444; -fx-text-fill: white;"/>
     </HBox>
 
+    <!-- Tab Pane -->
     <TabPane VBox.vgrow="ALWAYS">
-        <!-- Meniu Tab -->
+        <!-- Tab: Gestionare Meniu -->
         <Tab text="Gestionare Meniu" closable="false">
             <VBox spacing="10" styleClass="dashboard-container">
                 <HBox alignment="CENTER_LEFT" spacing="10">
                     <Button text="Adaugă Produs Nou" onAction="#showAddItemDialog" styleClass="primary-button"/>
                     <ComboBox fx:id="menuFilterCategory" promptText="Filtrare după categorie"/>
                 </HBox>
-
                 <TableView fx:id="menuItemsTable" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn text="Nume" fx:id="menuItemNameColumn"/>
@@ -41,13 +44,12 @@
             </VBox>
         </Tab>
 
-        <!-- Personal Tab -->
+        <!-- Tab: Gestionare Personal -->
         <Tab text="Gestionare Personal" closable="false">
             <VBox spacing="10" styleClass="dashboard-container">
                 <HBox alignment="CENTER_LEFT" spacing="10">
                     <Button text="Adaugă Angajat Nou" onAction="#showAddStaffDialog" styleClass="primary-button"/>
                 </HBox>
-
                 <TableView fx:id="staffTable" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn text="Username" fx:id="staffUsernameColumn"/>
@@ -62,4 +64,5 @@
     <HBox styleClass="status-bar" spacing="10" alignment="CENTER_LEFT">
         <Label fx:id="statusLabel" text="Autentificat ca Manager"/>
     </HBox>
-</VBox> 
+
+</VBox>

@@ -34,10 +34,12 @@ public class CartController {
     private TableColumn<OrderItem, Double> totalColumn;
     @FXML
     private Label subtotalLabel;
+
     @FXML
     private Label vatLabel;
-    @FXML
-    private Label totalLabel;
+
+//    @FXML
+//    private Label totalLabel;
 
     private final CartService cartService;
     private final OrderRepository orderRepository;
@@ -85,15 +87,15 @@ public class CartController {
         cartTable.setItems(cartService.getCartItems());
     }
 
-    @FXML
-    private void handleRemoveFromCart() {
-        OrderItem selectedItem = cartTable.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            cartService.removeFromCart(selectedItem);
-            loadCartItems();
-            updateTotals();
-        }
-    }
+//    @FXML
+//    private void handleRemoveFromCart() {
+//        OrderItem selectedItem = cartTable.getSelectionModel().getSelectedItem();
+//        if (selectedItem != null) {
+//            cartService.removeFromCart(selectedItem);
+//            loadCartItems();
+//            updateTotals();
+//        }
+//    }
 
     @FXML
     private void handleClearCart() {
@@ -150,17 +152,15 @@ public class CartController {
         });
     }
 
-    private void updateTotals() {
-        double subtotal = cartService.getCartItems().stream()
-                .mapToDouble(item -> item.getPrice() * item.getQuantity())
-                .sum();
-        double vat = subtotal * 0.19; // 19% TVA
-        double total = subtotal + vat;
+    @FXML
+    private Label totalLabel;
 
-        subtotalLabel.setText(String.format("%.2f RON", subtotal));
-        vatLabel.setText(String.format("%.2f RON", vat));
+    private void updateTotals() {
+        double total = cartService.getTotal(); // fără TVA
+
         totalLabel.setText(String.format("%.2f RON", total));
     }
+
 
     @FXML
     private void backToMenu() {
@@ -193,13 +193,13 @@ public class CartController {
         alert.showAndWait();
     }
 
-    public void closeConnection() {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.log(Level.WARNING, "Error closing database connection", e);
-            }
-        }
-    }
+//    public void closeConnection() {
+//        if (connection != null) {
+//            try {
+//                connection.close();
+//            } catch (SQLException e) {
+//                logger.log(Level.WARNING, "Error closing database connection", e);
+//            }
+//        }
+//    }
 } 

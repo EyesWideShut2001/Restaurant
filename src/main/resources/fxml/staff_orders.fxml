@@ -45,22 +45,22 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            
+
             <Label text="Detalii Comandă" styleClass="section-header"/>
-            
+
             <ListView fx:id="orderItemsListView" VBox.vgrow="ALWAYS"/>
-            
+
             <Label text="Timp estimat (minute):"/>
             <Spinner fx:id="estimatedTimeSpinner"/>
-            
+
             <Label text="Note:"/>
             <TextArea fx:id="orderNotesField" wrapText="true"/>
-            
+
             <VBox spacing="5">
-                <Button text="Aprobă Comanda" onAction="#handleApproveOrder" 
-                        styleClass="success-button" maxWidth="Infinity"/>
-                <Button text="Respinge Comanda" onAction="#handleRejectOrder"
-                        styleClass="danger-button" maxWidth="Infinity"/>
+<!--                <Button text="Aprobă Comanda" onAction="#handleApproveOrder"-->
+<!--                        styleClass="success-button" maxWidth="Infinity"/>-->
+<!--                <Button text="Respinge Comanda" onAction="#handleRejectOrder"-->
+<!--                        styleClass="danger-button" maxWidth="Infinity"/>-->
                 <Button text="Începe Prepararea" onAction="#handleStartPreparation"
                         styleClass="primary-button" maxWidth="Infinity"/>
                 <Button text="Comandă Gata" onAction="#handleOrderReady"
@@ -78,4 +78,4 @@
         </padding>
         <Button text="Deconectare" onAction="#handleLogout" styleClass="secondary-button"/>
     </HBox>
-</VBox> 
+</VBox>

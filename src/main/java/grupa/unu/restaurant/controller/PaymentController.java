@@ -33,18 +33,18 @@ public class PaymentController {
         this.order = order;
     }
 
-    @FXML
-    private void initialize() {
-        if (order != null) {
-            totalAmountLabel.setText(String.format("%.2f RON", order.getTotalPrice()));
-        }
-
-        // Setup payment method toggle
-        paymentMethodGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
-            cardPaymentForm.setVisible(cardPaymentRadio.isSelected());
-            cardPaymentForm.setManaged(cardPaymentRadio.isSelected());
-        });
-    }
+//    @FXML
+//    private void initialize() {
+//        if (order != null) {
+//            totalAmountLabel.setText(String.format("%.2f RON", order.getTotalPrice()));
+//        }
+//
+//        // Setup payment method toggle
+//        paymentMethodGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
+//            cardPaymentForm.setVisible(cardPaymentRadio.isSelected());
+//            cardPaymentForm.setManaged(cardPaymentRadio.isSelected());
+//        });
+//    }
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;

@@ -4,9 +4,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="grupa.unu.restaurant.controller.FoodInfoDialogController"
-      styleClass="food-info-dialog" spacing="10" padding="20">
+     >
 
     <Label fx:id="nameLabel" styleClass="food-name"/>
     <Label fx:id="priceLabel" styleClass="item-price"/>

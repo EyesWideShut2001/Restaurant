@@ -42,11 +42,11 @@ public class CartService {
     }
 
     public double getTotal() {
-        double subtotal = cartItems.stream()
+        return cartItems.stream()
                 .mapToDouble(item -> item.getPrice() * item.getQuantity())
                 .sum();
-        return subtotal * 1.19; // Include 19% VAT
     }
+
 
     public double getSubtotal() {
         return cartItems.stream()

@@ -5,6 +5,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Pos?>
 
+<!--CUSTOMER VIEW OF MENU-->
+
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="grupa.unu.restaurant.controller.MenuViewController"
       stylesheets="@styles.css">

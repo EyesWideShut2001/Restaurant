@@ -16,6 +16,8 @@ import javafx.collections.FXCollections;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ManagerDashboardController {
     @FXML
@@ -316,4 +318,31 @@ public class ManagerDashboardController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    @FXML
+    private Button paymentsButton; // sau alt nod deja existent în FXML
+
+    @FXML
+    public void showPayments() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/staff_payments_view.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) paymentsButton.getScene().getWindow(); // folosește orice nod din dashboard
+            stage.setScene(scene);
+            stage.setWidth(1024);
+            stage.setHeight(768);
+            stage.setResizable(true);
+            stage.setMinWidth(1024);
+            stage.setMinHeight(768);
+            stage.show();
+        } catch (IOException e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error loading payments view", e);
+            showError("Eroare", "Nu s-a putut încărca istoricul plăților.");
+        }
+    }
+
+
+
+
+
 } 

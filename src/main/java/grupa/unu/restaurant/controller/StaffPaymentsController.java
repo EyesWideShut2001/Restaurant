@@ -81,7 +81,7 @@ public class StaffPaymentsController {
     }
 
     private void setupFilters() {
-        paymentMethodFilter.setItems(FXCollections.observableArrayList("Toate", "Card", "Cash"));
+        paymentMethodFilter.setItems(FXCollections.observableArrayList("Toate", "CARD", "CASH"));
         paymentMethodFilter.setValue("Toate");
     }
 
@@ -147,18 +147,18 @@ public class StaffPaymentsController {
         }
     }
 
-    @FXML
-    public void applyFilters() {
-        loadPayments();
-    }
+//    @FXML
+//    public void applyFilters() {
+//        loadPayments();
+//    }
 
-    @FXML
-    public void resetFilters() {
-        paymentMethodFilter.setValue("Toate");
-        startDate.setValue(null);
-        endDate.setValue(null);
-        loadPayments();
-    }
+//    @FXML
+//    public void resetFilters() {
+//        paymentMethodFilter.setValue("Toate");
+//        startDate.setValue(null);
+//        endDate.setValue(null);
+//        loadPayments();
+//    }
 
     @FXML
     public void handleBack() {

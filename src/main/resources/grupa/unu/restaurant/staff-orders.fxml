@@ -58,10 +58,10 @@
             <TextArea fx:id="orderNotesField" wrapText="true"/>
             
             <VBox spacing="5">
-                <Button text="Aprobă Comanda" onAction="#handleApproveOrder" 
-                        styleClass="success-button" maxWidth="Infinity"/>
-                <Button text="Respinge Comanda" onAction="#handleRejectOrder"
-                        styleClass="danger-button" maxWidth="Infinity"/>
+<!--                <Button text="Aprobă Comanda" onAction="#handleApproveOrder" -->
+<!--                        styleClass="success-button" maxWidth="Infinity"/>-->
+<!--                <Button text="Respinge Comanda" onAction="#handleRejectOrder"-->
+<!--                        styleClass="danger-button" maxWidth="Infinity"/>-->
                 <Button text="Începe Prepararea" onAction="#handleStartPreparation"
                         styleClass="primary-button" maxWidth="Infinity"/>
                 <Button text="Comandă Gata" onAction="#handleOrderReady"

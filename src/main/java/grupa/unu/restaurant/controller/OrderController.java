@@ -57,32 +57,32 @@ public class OrderController {
         }
     }
 
-    public Order getOrderById(long id) {
-        try {
-            return orderRepository.findById(id);
-        } catch (SQLException e) {
-            showError("Error", "Could not find order: " + e.getMessage());
-            return null;
-        }
-    }
+//    public Order getOrderById(long id) {
+//        try {
+//            return orderRepository.findById(id);
+//        } catch (SQLException e) {
+//            showError("Error", "Could not find order: " + e.getMessage());
+//            return null;
+//        }
+//    }
 
-    public void updateOrderStatus(long orderId, String status, String approvedBy) {
-        try {
-            orderRepository.updateOrderStatus(orderId, status, approvedBy);
-            loadOrders(); // Refresh the list
-        } catch (SQLException e) {
-            showError("Error", "Could not update order status: " + e.getMessage());
-        }
-    }
-
-    public void updateOrderDetails(Order order) {
-        try {
-            orderRepository.updateOrderDetails(order);
-            loadOrders(); // Refresh the list
-        } catch (SQLException e) {
-            showError("Error", "Could not update order details: " + e.getMessage());
-        }
-    }
+//    public void updateOrderStatus(long orderId, String status, String approvedBy) {
+//        try {
+//            orderRepository.updateOrderStatus(orderId, status, approvedBy);
+//            loadOrders(); // Refresh the list
+//        } catch (SQLException e) {
+//            showError("Error", "Could not update order status: " + e.getMessage());
+//        }
+//    }
+//
+//    public void updateOrderDetails(Order order) {
+//        try {
+//            orderRepository.updateOrderDetails(order);
+//            loadOrders(); // Refresh the list
+//        } catch (SQLException e) {
+//            showError("Error", "Could not update order details: " + e.getMessage());
+//        }
+//    }
 
     private void showError(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

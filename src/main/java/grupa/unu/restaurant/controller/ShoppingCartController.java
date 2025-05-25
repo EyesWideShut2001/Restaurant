@@ -19,14 +19,14 @@ public class ShoppingCartController {
         shoppingCartService.removeItemFromCart(productName);
     }
 
-    public void checkout() {
-        Order order = shoppingCartService.checkout();
-        System.out.println("Order finalized: " + order);
-    }
+//    public void checkout() {
+//        Order order = shoppingCartService.checkout();
+//        System.out.println("Order finalized: " + order);
+//    }
 
-    public void showTotalPrice() {
-        double totalPrice = shoppingCartService.getTotalPrice();
-        System.out.println("Total price: " + totalPrice);
-    }
+//    public void showTotalPrice() {
+//        double totalPrice = shoppingCartService.getTotalPrice();
+//        System.out.println("Total price: " + totalPrice);
+//    }
 
 }

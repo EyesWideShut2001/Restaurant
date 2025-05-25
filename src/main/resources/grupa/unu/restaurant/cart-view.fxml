@@ -31,18 +31,11 @@
     <!-- Order Summary -->
     <VBox styleClass="order-summary">
         <HBox alignment="CENTER_RIGHT">
-            <Label text="Subtotal:"/>
-            <Label fx:id="subtotalLabel" styleClass="price-label"/>
-        </HBox>
-        <HBox alignment="CENTER_RIGHT">
-            <Label text="VAT (19%):"/>
-            <Label fx:id="vatLabel" styleClass="price-label"/>
-        </HBox>
-        <HBox alignment="CENTER_RIGHT">
             <Label text="Total:" styleClass="total-label"/>
             <Label fx:id="totalLabel" styleClass="total-price-label"/>
         </HBox>
     </VBox>
+
 
     <!-- Action Buttons -->
     <HBox alignment="CENTER_RIGHT">
