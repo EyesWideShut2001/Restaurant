@@ -11,6 +11,7 @@ public class MenuItem {
     private final BooleanProperty vegetarian;
     private final BooleanProperty spicy;
     private final BooleanProperty alcoholic;
+    private final BooleanProperty available; // disponibilitate
 
     public MenuItem() {
         this.id = new SimpleLongProperty();
@@ -21,10 +22,11 @@ public class MenuItem {
         this.vegetarian = new SimpleBooleanProperty();
         this.spicy = new SimpleBooleanProperty();
         this.alcoholic = new SimpleBooleanProperty();
+        this.available = new SimpleBooleanProperty(true); // implicit disponibil
     }
 
     public MenuItem(long id, String name, String category, double price, String ingredients,
-                   boolean vegetarian, boolean spicy, boolean alcoholic) {
+                    boolean vegetarian, boolean spicy, boolean alcoholic) {
         this.id = new SimpleLongProperty(id);
         this.name = new SimpleStringProperty(name);
         this.category = new SimpleStringProperty(category);
@@ -33,6 +35,7 @@ public class MenuItem {
         this.vegetarian = new SimpleBooleanProperty(vegetarian);
         this.spicy = new SimpleBooleanProperty(spicy);
         this.alcoholic = new SimpleBooleanProperty(alcoholic);
+        this.available = new SimpleBooleanProperty(true); // implicit disponibil
     }
 
     // Getters and setters
@@ -67,4 +70,8 @@ public class MenuItem {
     public boolean isAlcoholic() { return alcoholic.get(); }
     public void setAlcoholic(boolean value) { alcoholic.set(value); }
     public BooleanProperty alcoholicProperty() { return alcoholic; }
+
+    public boolean isAvailable() { return available.get(); }
+    public void setAvailable(boolean value) { available.set(value); }
+    public BooleanProperty availableProperty() { return available; }
 }

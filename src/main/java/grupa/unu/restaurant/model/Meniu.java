@@ -21,21 +21,37 @@ public class Meniu {
         items.add(item);
     }
 
+    public List<MenuItem> getItems() {
+        return items;
+    }
+
+    // Metodă pentru staff: setează disponibilitatea unui produs
+    public void setDisponibilitateProdus(String numeProdus, boolean disponibil) {
+        for (MenuItem item : items) {
+            if (item.getName().equalsIgnoreCase(numeProdus)) {
+                item.setAvailable(disponibil);
+                break;
+            }
+        }
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         Map<String, List<MenuItem>> categorizedItems = getItemsByCategory();
-        
+
         for (Map.Entry<String, List<MenuItem>> entry : categorizedItems.entrySet()) {
             sb.append("\n").append(entry.getKey()).append(":\n");
             for (MenuItem item : entry.getValue()) {
-                sb.append(item.getName()).append(" - ").append(item.getPrice()).append(" lei\n");
+                sb.append(item.getName())
+                        .append(" - ")
+                        .append(item.getPrice())
+                        .append(" lei - ")
+                        .append(item.isAvailable() ? "Disponibil" : "Indisponibil")
+                        .append("\n");
             }
         }
-        
-        return sb.toString();
-    }
 
-    public List<MenuItem> getItems() {
-        return items;
+        return sb.toString();
     }
 }
