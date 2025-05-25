@@ -18,9 +18,9 @@ public class ManagerRepository {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new Manager(
-                            rs.getInt("id"),
+                            rs.getLong("id"),
                             rs.getString("username"),
-                            rs.getString("password")
+                            rs.getString("password")  // This is the hashed password from the database
                     );
                 }
             }

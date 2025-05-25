@@ -15,8 +15,8 @@ public class ShoppingCartController {
         shoppingCartService.addItemToCart(item);
     }
 
-    public void removeItem(Long id) {
-        shoppingCartService.removeItemFromCart(id);
+    public void removeItem(String productName) {
+        shoppingCartService.removeItemFromCart(productName);
     }
 
     public void checkout() {

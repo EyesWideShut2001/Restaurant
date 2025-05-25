@@ -1,83 +1,96 @@
 package grupa.unu.restaurant.model;
 
-import java.util.List;
+import javafx.beans.property.*;
+import javafx.collections.ObservableList;
+import java.time.LocalDateTime;
 
 public class Order {
-    private Long id;
-    private List<OrderItem> items;
-    private double totalPrice;
-    private OrderStatus orderStatus;
-    private int estimatedTime;
+    private final LongProperty id;
+    private final DoubleProperty totalPrice;
+    private final StringProperty status;
+    private final ObjectProperty<LocalDateTime> orderTime;
+    private final StringProperty approvedBy;
+    private final ObjectProperty<LocalDateTime> approvalTime;
+    private final IntegerProperty estimatedTime;
+    private final StringProperty notes;
+    private final StringProperty paymentMethod;
+    private final StringProperty receiptNumber;
+    private final ObjectProperty<LocalDateTime> paymentTime;
+    private ObservableList<OrderItem> items;
+    private static final int PREPARATION_TIME_PER_ITEM = 10; // minute per item
 
-    public Order(){}
-
-    public Order(Long id, List<OrderItem> items, double totalPrice, OrderStatus orderStatus, int estimatedTime) {
-        this.id = id;
-        this.items = items;
-        this.totalPrice = totalPrice;
-        this.orderStatus = orderStatus;
-        this.estimatedTime = estimatedTime;
+    public Order() {
+        this.id = new SimpleLongProperty();
+        this.totalPrice = new SimpleDoubleProperty();
+        this.status = new SimpleStringProperty();
+        this.orderTime = new SimpleObjectProperty<>();
+        this.approvedBy = new SimpleStringProperty();
+        this.approvalTime = new SimpleObjectProperty<>();
+        this.estimatedTime = new SimpleIntegerProperty();
+        this.notes = new SimpleStringProperty();
+        this.paymentMethod = new SimpleStringProperty();
+        this.receiptNumber = new SimpleStringProperty();
+        this.paymentTime = new SimpleObjectProperty<>();
     }
 
-    public int getEstimatedTime() {
-        return estimatedTime;
-    }
+    // Getters and setters
+    public long getId() { return id.get(); }
+    public void setId(long value) { id.set(value); }
+    public LongProperty idProperty() { return id; }
 
-    public void setEstimatedTime(int estimatedTime) {
-        this.estimatedTime = estimatedTime;
+    public double getTotalPrice() { 
+        if (items == null) return 0;
+        return items.stream()
+                .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                .sum();
     }
+    public void setTotalPrice(double value) { totalPrice.set(value); }
+    public DoubleProperty totalPriceProperty() { return totalPrice; }
 
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
+    public String getStatus() { return status.get(); }
+    public void setStatus(String value) { status.set(value); }
+    public StringProperty statusProperty() { return status; }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
+    public LocalDateTime getOrderTime() { return orderTime.get(); }
+    public void setOrderTime(LocalDateTime value) { orderTime.set(value); }
+    public ObjectProperty<LocalDateTime> orderTimeProperty() { return orderTime; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getApprovedBy() { return approvedBy.get(); }
+    public void setApprovedBy(String value) { approvedBy.set(value); }
+    public StringProperty approvedByProperty() { return approvedBy; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public LocalDateTime getApprovalTime() { return approvalTime.get(); }
+    public void setApprovalTime(LocalDateTime value) { approvalTime.set(value); }
+    public ObjectProperty<LocalDateTime> approvalTimeProperty() { return approvalTime; }
 
-    public List<OrderItem> getItems() {
-        return items;
-    }
+    public int getEstimatedTime() { return estimatedTime.get(); }
+    public void setEstimatedTime(int value) { estimatedTime.set(value); }
+    public IntegerProperty estimatedTimeProperty() { return estimatedTime; }
 
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
-    }
+    public String getNotes() { return notes.get(); }
+    public void setNotes(String value) { notes.set(value); }
+    public StringProperty notesProperty() { return notes; }
 
-    public double getTotalPrice() {
-        return totalPrice;
-    }
+    public ObservableList<OrderItem> getItems() { return items; }
+    public void setItems(ObservableList<OrderItem> items) { this.items = items; }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+    public String getPaymentMethod() { return paymentMethod.get(); }
+    public void setPaymentMethod(String value) { paymentMethod.set(value); }
+    public StringProperty paymentMethodProperty() { return paymentMethod; }
 
-    public void updateTotalPrice(){
-        this.totalPrice = this.items.stream().mapToDouble(OrderItem::getPrice).sum();
-    }
+    public String getReceiptNumber() { return receiptNumber.get(); }
+    public void setReceiptNumber(String value) { receiptNumber.set(value); }
+    public StringProperty receiptNumberProperty() { return receiptNumber; }
 
-    public void addItem(OrderItem item){
-        this.items.add(item);
-        this.updateTotalPrice();
-    }
+    public LocalDateTime getPaymentTime() { return paymentTime.get(); }
+    public void setPaymentTime(LocalDateTime value) { paymentTime.set(value); }
+    public ObjectProperty<LocalDateTime> paymentTimeProperty() { return paymentTime; }
 
-    public void removeItem(OrderItem item){
-        this.items.remove(item);
-        this.updateTotalPrice();
-    }
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", items=" + items +
-                ", totalPrice=" + totalPrice +
-                '}';
+        return String.format("Order #%d - %s - Total: %.2f RON", 
+            id != null ? id : 0, 
+            status, 
+            getTotalPrice());
     }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@styles.css"
+      spacing="15" alignment="CENTER">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Procesare Plată" styleClass="title-label"/>
+    
+    <HBox alignment="CENTER">
+        <Label text="Total de plată: "/>
+        <Label fx:id="totalAmountLabel" styleClass="amount-label"/>
+    </HBox>
+
+    <VBox spacing="10">
+        <Label text="Alegeți metoda de plată:"/>
+        <RadioButton fx:id="cashPaymentRadio" text="Numerar" selected="true">
+            <toggleGroup>
+                <ToggleGroup fx:id="paymentMethodGroup"/>
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="cardPaymentRadio" text="Card" toggleGroup="$paymentMethodGroup"/>
+    </VBox>
+
+    <VBox fx:id="cardPaymentForm" spacing="10" visible="false" managed="false">
+        <Label text="Detalii Card"/>
+        <TextField fx:id="cardNumberField" promptText="Număr Card"/>
+        <HBox spacing="10">
+            <TextField fx:id="cvvField" promptText="CVV" maxWidth="100"/>
+            <DatePicker fx:id="expiryDatePicker" promptText="Data Expirării"/>
+        </HBox>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Anulează" onAction="#handleCancel" styleClass="secondary-button"/>
+        <Button text="Procesează Plata" onAction="#handlePayment" styleClass="primary-button"/>
+    </HBox>
+</VBox> 

@@ -1,0 +1,422 @@
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #f5f5f5;
+}
+
+.login-container {
+    -fx-background-color: white;
+    -fx-padding: 30.0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10.0, 0.0, 0.0, 2.0);
+    -fx-background-radius: 8.0;
+    -fx-min-width: 350.0;
+}
+
+.title-text {
+    -fx-fill: #2c3e50;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.subtitle-text {
+    -fx-fill: #7f8c8d;
+    -fx-font-size: 16px;
+}
+
+.button-container {
+    -fx-padding: 20.0 0.0 0.0 0.0;
+}
+
+.input-field {
+    -fx-pref-width: 250.0;
+    -fx-padding: 8.0;
+    -fx-background-radius: 4.0;
+    -fx-border-radius: 4.0;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1.0;
+    -fx-font-size: 14.0;
+}
+
+.input-field:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+}
+
+.primary-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-padding: 8.0 20.0;
+    -fx-background-radius: 4.0;
+    -fx-cursor: hand;
+    -fx-font-size: 14.0;
+    -fx-min-width: 200.0;
+}
+
+.primary-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.secondary-button {
+    -fx-background-color: #95a5a6;
+    -fx-text-fill: white;
+    -fx-padding: 8.0 20.0;
+    -fx-background-radius: 4.0;
+    -fx-cursor: hand;
+    -fx-font-size: 14.0;
+    -fx-min-width: 200.0;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #7f8c8d;
+}
+
+.error-label {
+    -fx-text-fill: #e74c3c;
+    -fx-font-size: 12px;
+}
+
+.guest-link {
+    -fx-text-fill: #3498db;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.guest-link:hover {
+    -fx-text-fill: #2980b9;
+}
+
+/* Menu Styles */
+.menu-category {
+    -fx-background-color: white;
+    -fx-padding: 15.0;
+    -fx-background-radius: 8.0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10.0, 0.0, 0.0, 2.0);
+}
+
+.menu-item {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10.0, 0.0, 0.0, 0.0);
+    -fx-background-radius: 5.0;
+    -fx-border-radius: 5.0;
+    -fx-min-width: 200.0;
+}
+
+.menu-item:hover {
+    -fx-background-color: #f8f9fa;
+}
+
+.category-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.item-name {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.item-price {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2d5a27;
+}
+
+.info-button {
+    -fx-background-radius: 15.0;
+    -fx-min-width: 30.0;
+    -fx-min-height: 30.0;
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #666;
+}
+
+.info-button:hover {
+    -fx-background-color: #c0392b;
+}
+
+/* Staff Dashboard Styles */
+.dashboard-container {
+    -fx-background-color: white;
+    -fx-padding: 20.0;
+}
+
+.order-card {
+    -fx-background-color: white;
+    -fx-padding: 15.0;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4.0;
+    -fx-background-radius: 4.0;
+}
+
+.status-label {
+    -fx-padding: 5.0 10.0;
+    -fx-background-radius: 15.0;
+    -fx-font-size: 12.0;
+    -fx-font-weight: bold;
+}
+
+.status-waiting {
+    -fx-background-color: #f1c40f;
+    -fx-text-fill: white;
+}
+
+.status-preparing {
+    -fx-background-color: #e67e22;
+    -fx-text-fill: white;
+}
+
+.status-served {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+}
+
+/* Food Info Dialog Styles */
+.food-info-dialog {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10.0, 0.0, 0.0, 0.0);
+    -fx-background-radius: 10.0;
+    -fx-border-radius: 10.0;
+    -fx-min-width: 400.0;
+    -fx-min-height: 300.0;
+}
+
+.food-name {
+    -fx-font-size: 24.0;
+    -fx-font-weight: bold;
+    -fx-padding: 0.0 0.0 10.0 0.0;
+}
+
+.ingredients {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+}
+
+.dietary-info {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2d5a27;
+    -fx-font-weight: bold;
+}
+
+.close-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5.0;
+    -fx-min-width: 100.0;
+}
+
+.close-button:hover {
+    -fx-background-color: #c0392b;
+}
+
+.section-header {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+.ingredients-flow {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 10.0;
+    -fx-background-radius: 4.0;
+}
+
+.info-text-area {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4.0;
+    -fx-background-radius: 4.0;
+}
+
+.info-text-area .content {
+    -fx-background-color: #f8f9fa;
+}
+
+/* Cart Styles */
+.cart-summary {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px 0 0 0;
+}
+
+/* Status Bar Styles */
+.status-bar {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px 0 0 0;
+}
+
+/* Cart View Specific Styles */
+.order-summary {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 15.0;
+    -fx-background-radius: 4.0;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4.0;
+}
+
+.price-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+}
+
+.total-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.total-price-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #27ae60;
+}
+
+.cart-table-view {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.quantity-spinner {
+    -fx-pref-width: 80.0;
+}
+
+.remove-item-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-background-radius: 4.0;
+    -fx-cursor: hand;
+}
+
+.remove-item-button:hover {
+    -fx-background-color: #c0392b;
+}
+
+/* Dialog Styles */
+.dialog-container {
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+}
+
+.dialog-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10px 0;
+}
+
+.dialog-container .button {
+    -fx-min-width: 80px;
+}
+
+.dialog-container .text-field,
+.dialog-container .text-area,
+.dialog-container .combo-box {
+    -fx-pref-width: 250px;
+}
+
+.dialog-container .text-area {
+    -fx-pref-height: 80px;
+}
+
+.dialog-container .check-box {
+    -fx-padding: 5px 0;
+}
+
+/* Grid Styles */
+.grid-pane {
+    -fx-hgap: 10px;
+    -fx-vgap: 10px;
+    -fx-padding: 10px;
+}
+
+/* Button Styles */
+.primary-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+.primary-button:hover {
+    -fx-background-color: #45a049;
+}
+
+.secondary-button {
+    -fx-background-color: #f44336;
+    -fx-text-fill: white;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #da190b;
+}
+
+/* Menu Table Button Styles */
+.edit-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-min-width: 60px;
+}
+
+.edit-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.delete-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-min-width: 60px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b;
+}
+
+.nav-bar {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 0 0 1 0;
+}
+
+.nav-button {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 5 15;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: #5a6268;
+}
+
+.staff-button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-padding: 8.0 20.0;
+    -fx-background-radius: 4.0;
+    -fx-cursor: hand;
+    -fx-font-size: 14.0;
+    -fx-min-width: 200.0;
+}
+
+.staff-button:hover {
+    -fx-background-color: #0056b3;
+}
+
+/* Error Dialog Styles */
+.error-dialog {
+    -fx-background-color: white;
+    -fx-border-color: #e74c3c;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.error-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e74c3c;
+}
+
+.error-message {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+} 

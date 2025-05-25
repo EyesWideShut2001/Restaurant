@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="grupa.unu.restaurant.controller.ManagerDashboardController"
+      stylesheets="@styles.css">
+
+    <HBox alignment="CENTER_LEFT">
+        <MenuBar HBox.hgrow="ALWAYS">
+            <Menu text="File">
+                <MenuItem text="Exit" onAction="#handleExit"/>
+            </Menu>
+        </MenuBar>
+        <Button text="Deconectare" onAction="#handleLogout" 
+                style="-fx-background-color: #ff4444; -fx-text-fill: white;"/>
+    </HBox>
+
+    <TabPane VBox.vgrow="ALWAYS">
+        <!-- Meniu Tab -->
+        <Tab text="Gestionare Meniu" closable="false">
+            <VBox spacing="10" styleClass="dashboard-container">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Button text="Adaugă Produs Nou" onAction="#showAddItemDialog" styleClass="primary-button"/>
+                    <ComboBox fx:id="menuFilterCategory" promptText="Filtrare după categorie"/>
+                </HBox>
+
+                <TableView fx:id="menuItemsTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn text="Nume" fx:id="menuItemNameColumn"/>
+                        <TableColumn text="Categorie" fx:id="menuItemCategoryColumn"/>
+                        <TableColumn text="Preț" fx:id="menuItemPriceColumn"/>
+                        <TableColumn text="Ingrediente" fx:id="menuItemIngredientsColumn"/>
+                        <TableColumn text="Vegetarian" fx:id="menuItemVegetarianColumn"/>
+                        <TableColumn text="Picant" fx:id="menuItemSpicyColumn"/>
+                        <TableColumn text="Acțiuni" fx:id="menuItemActionsColumn"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+
+        <!-- Personal Tab -->
+        <Tab text="Gestionare Personal" closable="false">
+            <VBox spacing="10" styleClass="dashboard-container">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Button text="Adaugă Angajat Nou" onAction="#showAddStaffDialog" styleClass="primary-button"/>
+                </HBox>
+
+                <TableView fx:id="staffTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn text="Username" fx:id="staffUsernameColumn"/>
+                        <TableColumn text="Acțiuni" fx:id="staffActionsColumn"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+    </TabPane>
+
+    <!-- Status Bar -->
+    <HBox styleClass="status-bar" spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="statusLabel" text="Autentificat ca Manager"/>
+    </HBox>
+</VBox> 

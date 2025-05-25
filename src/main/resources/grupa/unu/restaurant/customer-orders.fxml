@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@styles.css"
+      spacing="10">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <Button text="← Înapoi la Meniu" onAction="#backToMenu" styleClass="secondary-button"/>
+        <Text text="Comenzile Mele" styleClass="category-title"/>
+    </HBox>
+
+    <!-- Orders Table -->
+    <TableView fx:id="ordersTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="orderIdColumn" text="Nr. Comandă"/>
+            <TableColumn fx:id="orderTimeColumn" text="Data și Ora"/>
+            <TableColumn fx:id="statusColumn" text="Status"/>
+            <TableColumn fx:id="estimatedTimeColumn" text="Timp Estimat (min)"/>
+            <TableColumn fx:id="totalColumn" text="Total (RON)"/>
+        </columns>
+    </TableView>
+
+    <!-- Order Details Section -->
+    <VBox fx:id="orderDetailsPane" visible="false" spacing="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        
+        <Label text="Detalii Comandă:" styleClass="section-header"/>
+        
+        <ListView fx:id="orderItemsListView" VBox.vgrow="ALWAYS"/>
+        
+        <HBox spacing="10">
+            <Label text="Status:"/>
+            <Label fx:id="statusLabel" styleClass="status-label"/>
+        </HBox>
+        
+        <HBox spacing="10">
+            <Label text="Timp estimat:"/>
+            <Label fx:id="estimatedTimeLabel"/>
+        </HBox>
+        
+        <VBox spacing="5">
+            <Label text="Note:"/>
+            <TextArea fx:id="orderNotesField" editable="false" wrapText="true" prefRowCount="3"/>
+        </VBox>
+    </VBox>
+</VBox> 

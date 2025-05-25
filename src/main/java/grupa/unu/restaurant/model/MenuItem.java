@@ -1,32 +1,70 @@
 package grupa.unu.restaurant.model;
 
-public abstract class MenuItem {
-    private String nume;
-    private String ingrediente;
-    private boolean vegetarian;
-    private boolean picant;
-    private double pret;
+import javafx.beans.property.*;
 
-    public MenuItem(String nume, String ingrediente, boolean vegetarian, boolean picant, double pret) {
-        this.nume = nume;
-        this.ingrediente = ingrediente;
-        this.vegetarian = vegetarian;
-        this.picant = picant;
-        this.pret = pret;
+public class MenuItem {
+    private final LongProperty id;
+    private final StringProperty name;
+    private final StringProperty category;
+    private final DoubleProperty price;
+    private final StringProperty ingredients;
+    private final BooleanProperty vegetarian;
+    private final BooleanProperty spicy;
+    private final BooleanProperty alcoholic;
+
+    public MenuItem() {
+        this.id = new SimpleLongProperty();
+        this.name = new SimpleStringProperty();
+        this.category = new SimpleStringProperty();
+        this.price = new SimpleDoubleProperty();
+        this.ingredients = new SimpleStringProperty();
+        this.vegetarian = new SimpleBooleanProperty();
+        this.spicy = new SimpleBooleanProperty();
+        this.alcoholic = new SimpleBooleanProperty();
     }
 
-    // Getteri și setteri
-    public String getNume() { return nume; }
-    public String getIngrediente() { return ingrediente; }
-    public boolean isVegetarian() { return vegetarian; }
-    public boolean isPicant() { return picant; }
-    public double getPret() { return pret; }
+    public MenuItem(long id, String name, String category, double price, String ingredients,
+                   boolean vegetarian, boolean spicy, boolean alcoholic) {
+        this.id = new SimpleLongProperty(id);
+        this.name = new SimpleStringProperty(name);
+        this.category = new SimpleStringProperty(category);
+        this.price = new SimpleDoubleProperty(price);
+        this.ingredients = new SimpleStringProperty(ingredients);
+        this.vegetarian = new SimpleBooleanProperty(vegetarian);
+        this.spicy = new SimpleBooleanProperty(spicy);
+        this.alcoholic = new SimpleBooleanProperty(alcoholic);
+    }
 
-    public void setNume(String nume) { this.nume = nume; }
-    public void setIngrediente(String ingrediente) { this.ingrediente = ingrediente; }
-    public void setVegetarian(boolean vegetarian) { this.vegetarian = vegetarian; }
-    public void setPicant(boolean picant) { this.picant = picant; }
-    public void setPret(double pret) { this.pret = pret; }
+    // Getters and setters
+    public long getId() { return id.get(); }
+    public void setId(long value) { id.set(value); }
+    public LongProperty idProperty() { return id; }
 
-    public abstract String getCategorie();
+    public String getName() { return name.get(); }
+    public void setName(String value) { name.set(value); }
+    public StringProperty nameProperty() { return name; }
+
+    public String getCategory() { return category.get(); }
+    public void setCategory(String value) { category.set(value); }
+    public StringProperty categoryProperty() { return category; }
+
+    public double getPrice() { return price.get(); }
+    public void setPrice(double value) { price.set(value); }
+    public DoubleProperty priceProperty() { return price; }
+
+    public String getIngredients() { return ingredients.get(); }
+    public void setIngredients(String value) { ingredients.set(value); }
+    public StringProperty ingredientsProperty() { return ingredients; }
+
+    public boolean isVegetarian() { return vegetarian.get(); }
+    public void setVegetarian(boolean value) { vegetarian.set(value); }
+    public BooleanProperty vegetarianProperty() { return vegetarian; }
+
+    public boolean isSpicy() { return spicy.get(); }
+    public void setSpicy(boolean value) { spicy.set(value); }
+    public BooleanProperty spicyProperty() { return spicy; }
+
+    public boolean isAlcoholic() { return alcoholic.get(); }
+    public void setAlcoholic(boolean value) { alcoholic.set(value); }
+    public BooleanProperty alcoholicProperty() { return alcoholic; }
 }

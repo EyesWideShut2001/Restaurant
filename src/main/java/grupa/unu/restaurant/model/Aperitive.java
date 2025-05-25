@@ -1,12 +1,7 @@
 package grupa.unu.restaurant.model;
 
 public class Aperitive extends MenuItem {
-    public Aperitive(String nume, String ingrediente, boolean vegetarian, boolean picant, double pret) {
-        super(nume, ingrediente, vegetarian, picant, pret);
-    }
-
-    @Override
-    public String getCategorie() {
-        return "Aperitive";
+    public Aperitive(String name, String ingredients, boolean vegetarian, boolean spicy, double price) {
+        super(0, name, "Aperitive", price, ingredients, vegetarian, spicy, false);
     }
 }

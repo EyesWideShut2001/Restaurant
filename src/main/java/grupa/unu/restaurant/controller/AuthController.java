@@ -4,6 +4,8 @@ import grupa.unu.restaurant.model.Manager;
 import grupa.unu.restaurant.model.Staff;
 import grupa.unu.restaurant.repository.ManagerRepository;
 import grupa.unu.restaurant.repository.StaffRepository;
+import grupa.unu.restaurant.service.PasswordHasher;
+import java.sql.SQLException;
 
 public class AuthController {
 
@@ -40,15 +42,15 @@ public class AuthController {
     public AuthResult authenticate(String username, String password) {
         try {
             Manager manager = managerRepository.findByUsername(username);
-            if (manager != null && manager.getPassword().equals(password)) {
+            if (manager != null && PasswordHasher.checkPassword(password, manager.getPasswordHash())) {
                 return new AuthResult(AuthResultType.MANAGER, manager, null);
             }
             Staff staff = staffRepository.findByUsername(username);
-            if (staff != null && staff.getPassword().equals(password)) {
+            if (staff != null && PasswordHasher.checkPassword(password, staff.getPasswordHash())) {
                 return new AuthResult(AuthResultType.STAFF, null, staff);
             }
-        } catch (Exception e) {
-            // Poți loga eroarea dacă vrei
+        } catch (SQLException e) {
+            throw new RuntimeException("Eroare la autentificare", e);
         }
         return new AuthResult(AuthResultType.NONE, null, null);
     }

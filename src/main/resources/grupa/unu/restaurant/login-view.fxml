@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="grupa.unu.restaurant.controller.LoginController"
+      stylesheets="@styles.css">
+
+    <VBox alignment="CENTER" styleClass="login-container">
+        <Text text="Restaurant Login" styleClass="title-text">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Text>
+
+        <TextField fx:id="usernameField" promptText="Username" styleClass="input-field"/>
+        <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
+
+        <HBox alignment="CENTER">
+            <Button text="Login" onAction="#handleLogin" styleClass="primary-button"/>
+            <Button text="Cancel" onAction="#handleCancel" styleClass="secondary-button"/>
+        </HBox>
+
+        <Label fx:id="errorLabel" styleClass="error-label" visible="false"/>
+    </VBox>
+</VBox> 

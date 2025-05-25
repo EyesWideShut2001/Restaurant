@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="grupa.unu.restaurant.controller.FoodInfoDialogController"
+      styleClass="food-info-dialog" spacing="10" padding="20">
+
+    <Label fx:id="nameLabel" styleClass="food-name"/>
+    <Label fx:id="priceLabel" styleClass="item-price"/>
+    
+    <Label text="Ingrediente:" styleClass="section-header"/>
+    <TextArea fx:id="ingredientsArea" 
+              styleClass="info-text-area"
+              wrapText="true" 
+              editable="false" 
+              prefRowCount="3"/>
+    
+    <Label text="Informații:" styleClass="section-header"/>
+    <Label fx:id="dietaryInfoLabel" styleClass="dietary-info"/>
+    
+    <HBox alignment="CENTER_RIGHT">
+        <Button text="Închide" 
+                onAction="#handleClose" 
+                styleClass="close-button"/>
+    </HBox>
+
+</VBox> 

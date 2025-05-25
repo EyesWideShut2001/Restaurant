@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="grupa.unu.restaurant.controller.CartController"
+      stylesheets="@styles.css">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT">
+        <Button text="← Back to Menu" onAction="#backToMenu" styleClass="secondary-button"/>
+        <Text text="Your Cart" styleClass="category-title"/>
+    </HBox>
+
+    <!-- Cart Items -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+        <VBox>
+            <TableView fx:id="cartTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn text="Item" fx:id="productNameColumn"/>
+                    <TableColumn text="Price" fx:id="priceColumn"/>
+                    <TableColumn text="Quantity" fx:id="quantityColumn"/>
+                    <TableColumn text="Total" fx:id="totalColumn"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </ScrollPane>
+
+    <!-- Order Summary -->
+    <VBox styleClass="order-summary">
+        <HBox alignment="CENTER_RIGHT">
+            <Label text="Subtotal:"/>
+            <Label fx:id="subtotalLabel" styleClass="price-label"/>
+        </HBox>
+        <HBox alignment="CENTER_RIGHT">
+            <Label text="VAT (19%):"/>
+            <Label fx:id="vatLabel" styleClass="price-label"/>
+        </HBox>
+        <HBox alignment="CENTER_RIGHT">
+            <Label text="Total:" styleClass="total-label"/>
+            <Label fx:id="totalLabel" styleClass="total-price-label"/>
+        </HBox>
+    </VBox>
+
+    <!-- Action Buttons -->
+    <HBox alignment="CENTER_RIGHT">
+        <Button text="Clear Cart" onAction="#handleClearCart" styleClass="secondary-button"/>
+        <Button text="Place Order" onAction="#handlePlaceOrder" styleClass="primary-button"/>
+    </HBox>
+
+</VBox> 

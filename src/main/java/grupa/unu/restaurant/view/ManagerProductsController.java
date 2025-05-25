@@ -1,54 +1,69 @@
 package grupa.unu.restaurant.view;
 
-import grupa.unu.restaurant.controller.MenuController;
 import grupa.unu.restaurant.model.*;
 import grupa.unu.restaurant.model.MenuItem;
 import grupa.unu.restaurant.repository.MenuRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.TableView;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class ManagerProductsController {
 
-    @FXML private TextField txtNume, txtIngrediente, txtPret;
-    @FXML private CheckBox chkVegetarian, chkPicant, chkAlcoolica;
-    @FXML private ComboBox<String> cmbCategorie;
+    private final MenuRepository menuRepository;
+    @FXML
+    private TableView<MenuItem> productsTable;
+    @FXML
+    private TextField txtNume;
+    @FXML
+    private TextArea txtIngrediente;
+    @FXML
+    private TextField txtPret;
+    @FXML
+    private CheckBox chkVegetarian;
+    @FXML
+    private CheckBox chkPicant;
+    @FXML
+    private CheckBox chkAlcoolica;
+    @FXML
+    private ComboBox<String> cmbCategorie;
 
-    private final MenuController controller = new MenuController(new MenuRepository());
+    public ManagerProductsController() {
+        this.menuRepository = new MenuRepository();
+    }
 
     @FXML
-    public void handleSalveaza() {
+    private void initialize() {
+        refreshTable();
+    }
+
+    @FXML
+    private void handleAddProduct() {
         try {
             String nume = txtNume.getText();
             String ingrediente = txtIngrediente.getText();
             double pret = Double.parseDouble(txtPret.getText());
             String categorie = cmbCategorie.getValue();
+            boolean vegetarian = chkVegetarian.isSelected();
+            boolean picant = chkPicant.isSelected();
+            boolean alcoolic = chkAlcoolica.isSelected();
 
-            MenuItem item;
-            switch (categorie) {
-                case "Aperitive":
-                    item = new Aperitive(nume, ingrediente, chkVegetarian.isSelected(), chkPicant.isSelected(), pret);
-                    break;
-                case "Fel Principal":
-                    item = new MainCourse(nume, ingrediente, chkVegetarian.isSelected(), chkPicant.isSelected(), pret);
-                    break;
-                case "Băuturi spirtoase":
-                    item = new Beverage(nume, ingrediente, true, pret);
-                    break;
-                case "Băuturi nespirtoase":
-                    item = new Beverage(nume, ingrediente, false, pret);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Categorie necunoscută");
-            }
-
-            boolean success = controller.adaugaProdus(item);
-            if (success) {
-                new Alert(Alert.AlertType.INFORMATION, "Produs adăugat!").showAndWait();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Eroare la adăugare!").showAndWait();
-            }
+            MenuItem item = new MenuItem(0, nume, categorie, pret, ingrediente, 
+                                      vegetarian, picant, alcoolic);
+            menuRepository.save(item);
+            new Alert(AlertType.INFORMATION, "Produs adăugat!").showAndWait();
+            refreshTable();
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Eroare: " + e.getMessage()).showAndWait();
+            new Alert(AlertType.ERROR, "Eroare: " + e.getMessage()).showAndWait();
+        }
+    }
+
+    private void refreshTable() {
+        try {
+            productsTable.getItems().setAll(menuRepository.findAll());
+        } catch (Exception e) {
+            new Alert(AlertType.ERROR, "Eroare la încărcarea produselor: " + e.getMessage()).showAndWait();
         }
     }
 }

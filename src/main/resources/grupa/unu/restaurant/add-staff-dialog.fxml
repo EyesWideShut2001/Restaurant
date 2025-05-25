@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="grupa.unu.restaurant.controller.AddStaffDialogController"
+      styleClass="dialog-container" spacing="10">
+
+    <Label text="Adăugare Angajat Nou" styleClass="dialog-title"/>
+
+    <GridPane vgap="10" hgap="10">
+        <Label text="Username:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="usernameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Parolă:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <PasswordField fx:id="passwordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Confirmare Parolă:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <PasswordField fx:id="confirmPasswordField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Anulează" onAction="#handleCancel" styleClass="secondary-button"/>
+        <Button text="Salvează" onAction="#handleSave" styleClass="primary-button"/>
+    </HBox>
+
+</VBox> 

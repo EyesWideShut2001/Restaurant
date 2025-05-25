@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="grupa.unu.restaurant.controller.ErrorDialogController"
+      styleClass="error-dialog" spacing="15" padding="20">
+
+    <Label text="Eroare" styleClass="error-title"/>
+    <Label fx:id="errorMessageLabel" styleClass="error-message" wrapText="true"/>
+    
+    <HBox alignment="CENTER_RIGHT">
+        <Button text="Închide" 
+                onAction="#handleClose" 
+                styleClass="close-button"/>
+    </HBox>
+
+</VBox> 

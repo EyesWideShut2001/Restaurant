@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="grupa.unu.restaurant.controller.StaffPaymentsController"
+      stylesheets="@../styles.css"
+      spacing="10">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <Button text="← Înapoi" onAction="#handleBack" styleClass="secondary-button"/>
+        <Label text="Istoric Plăți" styleClass="section-header"/>
+    </HBox>
+
+    <!-- Filters -->
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <padding>
+            <Insets left="10" right="10"/>
+        </padding>
+        
+        <VBox spacing="5">
+            <Label text="Metodă de Plată:"/>
+            <ComboBox fx:id="paymentMethodFilter" onAction="#loadPayments"/>
+        </VBox>
+        
+        <VBox spacing="5">
+            <Label text="De la:"/>
+            <DatePicker fx:id="startDate" onAction="#loadPayments"/>
+        </VBox>
+        
+        <VBox spacing="5">
+            <Label text="Până la:"/>
+            <DatePicker fx:id="endDate" onAction="#loadPayments"/>
+        </VBox>
+    </HBox>
+
+    <!-- Payments Table -->
+    <TableView fx:id="paymentsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="receiptNumberColumn" text="Nr. Chitanță"/>
+            <TableColumn fx:id="orderIdColumn" text="Nr. Comandă"/>
+            <TableColumn fx:id="amountColumn" text="Sumă (RON)"/>
+            <TableColumn fx:id="paymentMethodColumn" text="Metodă Plată"/>
+            <TableColumn fx:id="paymentDateColumn" text="Data și Ora"/>
+        </columns>
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+    </TableView>
+
+    <!-- Summary -->
+    <HBox spacing="20" alignment="CENTER_RIGHT">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        
+        <Label text="Total plăți:"/>
+        <Label fx:id="totalPaymentsLabel" styleClass="summary-label"/>
+        
+        <Label text="Sumă totală:"/>
+        <Label fx:id="totalAmountLabel" styleClass="summary-label"/>
+    </HBox>
+</VBox> 

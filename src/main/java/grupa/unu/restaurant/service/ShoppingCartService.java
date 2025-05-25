@@ -11,25 +11,24 @@ public class ShoppingCartService {
         this.shoppingCart = new ShoppingCart();
     }
 
-    public void addItemToCart(OrderItem item){
+    public void addItemToCart(OrderItem item) {
         shoppingCart.addItem(item);
-        System.out.println("Item adaugat cu succes in cos cu id: " + item.getId());
+        System.out.println("Item adaugat cu succes in cos: " + item.getProductName());
     }
 
-    public void removeItemFromCart(Long itemId){
-        shoppingCart.removeItem(itemId);
-        System.out.println("Item sters cu succes din cos cu id: " + itemId);
+    public void removeItemFromCart(String productName) {
+        shoppingCart.removeItem(productName);
+        System.out.println("Item sters cu succes din cos: " + productName);
     }
 
-    public double getTotalPrice(){
+    public double getTotalPrice() {
         return shoppingCart.getTotalPrice();
     }
 
-    public Order checkout(){
+    public Order checkout() {
         Order order = shoppingCart.checkoutOrder();
         System.out.println("Comanda creata cu succes!");
-        System.out.println("Order: "+ order);
+        System.out.println("Order: " + order);
         return order;
     }
-
 }

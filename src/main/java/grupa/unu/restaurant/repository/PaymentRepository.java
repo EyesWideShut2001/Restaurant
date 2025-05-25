@@ -12,7 +12,7 @@ import java.util.List;
 
 public class PaymentRepository {
 
-    public void savePayment(Payment payment, Long orderId, String receiptNumber) throws SQLException {
+    public void savePayment(Payment payment, long orderId, String receiptNumber) throws SQLException {
         String sql = "INSERT INTO payments (order_id, amount, payment_method, card_number, receipt_number, payment_date) " +
                 "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
 

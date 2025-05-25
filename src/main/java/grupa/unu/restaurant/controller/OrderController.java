@@ -1,40 +1,94 @@
 package grupa.unu.restaurant.controller;
 
 import grupa.unu.restaurant.model.Order;
-import grupa.unu.restaurant.service.OrderService;
-
+import grupa.unu.restaurant.repository.OrderRepository;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public class OrderController {
+    @FXML
+    private TableView<Order> ordersTable;
 
-    private final OrderService orderService;
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
+    private final OrderRepository orderRepository;
+    private final ObservableList<Order> orders = FXCollections.observableArrayList();
+
+    public OrderController(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
-    public void createOrder(Order order) throws SQLException {
-        orderService.createOrder(order);
-        System.out.println("Order creat cu succes: " + order);
+    @FXML
+    public void initialize() {
+        setupTable();
+        loadOrders();
     }
 
-    public List<Order> getAllOrders() throws SQLException {
-        return orderService.getAllOrders();
+    private void setupTable() {
+        TableColumn<Order, Long> idColumn = new TableColumn<>("Order ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        TableColumn<Order, String> statusColumn = new TableColumn<>("Status");
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        TableColumn<Order, Double> totalColumn = new TableColumn<>("Total");
+        totalColumn.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+
+        ordersTable.getColumns().addAll(idColumn, statusColumn, totalColumn);
+        ordersTable.setItems(orders);
     }
 
-    public Optional<Order> getOrderById(Long id) throws SQLException {
-        Optional<Order> order =  orderService.getOrdersById(id);
-
-        order.ifPresentOrElse(
-                o -> System.out.println("Order cu id: " + id + " a fost gasit cu succes: " + o),
-                () -> System.out.println("Order cu id: " + id + " nu a fost gasit!")
-        );
-        return order;
+    public ObservableList<Order> getOrders() {
+        return orders;
     }
 
-    public void deleteOrderById(Long id) throws SQLException {
-        orderService.deleteOrderById(id);
-        System.out.println("Order cu id: " + id + " a fost sters cu succes!");
+    public void loadOrders() {
+        try {
+            List<Order> loadedOrders = orderRepository.findAll();
+            orders.setAll(loadedOrders);
+        } catch (SQLException e) {
+            showError("Error", "Could not load orders: " + e.getMessage());
+        }
+    }
+
+    public Order getOrderById(long id) {
+        try {
+            return orderRepository.findById(id);
+        } catch (SQLException e) {
+            showError("Error", "Could not find order: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public void updateOrderStatus(long orderId, String status, String approvedBy) {
+        try {
+            orderRepository.updateOrderStatus(orderId, status, approvedBy);
+            loadOrders(); // Refresh the list
+        } catch (SQLException e) {
+            showError("Error", "Could not update order status: " + e.getMessage());
+        }
+    }
+
+    public void updateOrderDetails(Order order) {
+        try {
+            orderRepository.updateOrderDetails(order);
+            loadOrders(); // Refresh the list
+        } catch (SQLException e) {
+            showError("Error", "Could not update order details: " + e.getMessage());
+        }
+    }
+
+    private void showError(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

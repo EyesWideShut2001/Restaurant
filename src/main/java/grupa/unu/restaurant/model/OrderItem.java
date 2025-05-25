@@ -1,64 +1,77 @@
 package grupa.unu.restaurant.model;
 
+import javafx.beans.property.*;
+
 public class OrderItem {
-    private Long id;
-    private String productName;
-    private int quantity;
-    private double price;
+    private final LongProperty id;
+    private final StringProperty productName;
+    private final DoubleProperty price;
+    private final IntegerProperty quantity;
 
-    public OrderItem(){}
-
-    public OrderItem(Long id, String productName, int quantity, double price) {
-        this.id = id;
-        this.productName = productName;
-        this.quantity = quantity;
-        this.price = price;
+    public OrderItem() {
+        this.id = new SimpleLongProperty();
+        this.productName = new SimpleStringProperty();
+        this.price = new SimpleDoubleProperty();
+        this.quantity = new SimpleIntegerProperty(1);
     }
 
-    public Long getId() {
+    public OrderItem(String productName, double price, int quantity) {
+        this();
+        setProductName(productName);
+        setPrice(price);
+        setQuantity(quantity);
+    }
+
+    public long getId() {
+        return id.get();
+    }
+
+    public void setId(long value) {
+        id.set(value);
+    }
+
+    public LongProperty idProperty() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getProductName() {
+        return productName.get();
     }
 
-    public String getProductName() {
+    public void setProductName(String value) {
+        productName.set(value);
+    }
+
+    public StringProperty productNameProperty() {
         return productName;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public double getPrice() {
+        return price.get();
+    }
+
+    public void setPrice(double value) {
+        price.set(value);
+    }
+
+    public DoubleProperty priceProperty() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public int getQuantity() {
+        return quantity.get();
     }
 
-    public double getTotalPrice(){
-        return this.price * this.quantity;
+    public void setQuantity(int value) {
+        quantity.set(value);
+    }
+
+    public IntegerProperty quantityProperty() {
+        return quantity;
     }
 
     @Override
     public String toString() {
-        return "OrderItem{" +
-                "id=" + id +
-                ", name='" + productName + '\'' +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                ", totalPrice=" + getTotalPrice() +
-                '}';
+        return String.format("%dx %s (%.2f RON)", getQuantity(), getProductName(), getPrice());
     }
 }

@@ -1,25 +1,41 @@
 package grupa.unu.restaurant.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Meniu {
-    private List<MenuItem> produse = new ArrayList<>();
+    private List<MenuItem> items;
 
-    public void adaugaProdus(MenuItem item) {
-        produse.add(item);
+    public Meniu() {
+        this.items = new ArrayList<>();
     }
 
-    public void afiseazaMeniu() {
-        Map<String, List<MenuItem>> categorii = new HashMap<>();
-        for (MenuItem item : produse) {
-            categorii.computeIfAbsent(item.getCategorie(), k -> new ArrayList<>()).add(item);
-        }
+    public Map<String, List<MenuItem>> getItemsByCategory() {
+        return items.stream()
+                .collect(Collectors.groupingBy(MenuItem::getCategory));
+    }
 
-        for (String categorie : categorii.keySet()) {
-            System.out.println("=== " + categorie + " ===");
-            for (MenuItem item : categorii.get(categorie)) {
-                System.out.println(item.getNume() + " - " + item.getPret() + " lei");
+    public void addItem(MenuItem item) {
+        items.add(item);
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Map<String, List<MenuItem>> categorizedItems = getItemsByCategory();
+        
+        for (Map.Entry<String, List<MenuItem>> entry : categorizedItems.entrySet()) {
+            sb.append("\n").append(entry.getKey()).append(":\n");
+            for (MenuItem item : entry.getValue()) {
+                sb.append(item.getName()).append(" - ").append(item.getPrice()).append(" lei\n");
             }
         }
+        
+        return sb.toString();
+    }
+
+    public List<MenuItem> getItems() {
+        return items;
     }
 }

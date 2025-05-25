@@ -1,66 +1,91 @@
 package grupa.unu.restaurant.repository;
 
 import grupa.unu.restaurant.RestaurantDb;
-import grupa.unu.restaurant.model.*;
+import grupa.unu.restaurant.model.MenuItem;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuRepository {
-
-    public boolean addMenuItem(MenuItem item) throws SQLException {
-        String sql = "INSERT INTO menu (nume, ingrediente, vegetarian, picant, pret, categorie, alcoolica) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = RestaurantDb.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, item.getNume());
-            stmt.setString(2, item.getIngrediente());
-            stmt.setBoolean(3, item.isVegetarian());
-            stmt.setBoolean(4, item.isPicant());
-            stmt.setDouble(5, item.getPret());
-            stmt.setString(6, item.getCategorie());
-            stmt.setObject(7, (item instanceof Beverage) ? ((Beverage) item).isAlcoolica() : null);
-            return stmt.executeUpdate() == 1;
-        }
-    }
-
-    public boolean updateMenuItem(String nume, MenuItem item) throws SQLException {
-        String sql = "UPDATE menu SET ingrediente=?, vegetarian=?, picant=?, pret=?, categorie=?, alcoolica=? WHERE nume=?";
-        try (Connection conn = RestaurantDb.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, item.getIngrediente());
-            stmt.setBoolean(2, item.isVegetarian());
-            stmt.setBoolean(3, item.isPicant());
-            stmt.setDouble(4, item.getPret());
-            stmt.setString(5, item.getCategorie());
-            stmt.setObject(6, (item instanceof Beverage) ? ((Beverage) item).isAlcoolica() : null);
-            stmt.setString(7, nume);
-            return stmt.executeUpdate() == 1;
-        }
-    }
-
-    public List<MenuItem> getAllItems() throws SQLException {
-        List<MenuItem> items = new ArrayList<>();
+    public List<MenuItem> findAll() throws SQLException {
         String sql = "SELECT * FROM menu";
+        List<MenuItem> items = new ArrayList<>();
+
         try (Connection conn = RestaurantDb.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
             while (rs.next()) {
-                String categorie = rs.getString("categorie");
-                MenuItem item;
-                if ("Aperitive".equals(categorie)) {
-                    item = new Aperitive(rs.getString("nume"), rs.getString("ingrediente"),
-                            rs.getBoolean("vegetarian"), rs.getBoolean("picant"), rs.getDouble("pret"));
-                } else if ("Fel Principal".equals(categorie)) {
-                    item = new MainCourse(rs.getString("nume"), rs.getString("ingrediente"),
-                            rs.getBoolean("vegetarian"), rs.getBoolean("picant"), rs.getDouble("pret"));
-                } else {
-                    item = new Beverage(rs.getString("nume"), rs.getString("ingrediente"),
-                            rs.getBoolean("alcoolica"), rs.getDouble("pret"));
-                }
+                MenuItem item = new MenuItem(
+                    rs.getLong("id"),
+                    rs.getString("nume"),
+                    rs.getString("categorie"),
+                    rs.getDouble("pret"),
+                    rs.getString("ingrediente"),
+                    rs.getBoolean("vegetarian"),
+                    rs.getBoolean("picant"),
+                    rs.getBoolean("alcoolica")
+                );
                 items.add(item);
             }
         }
         return items;
+    }
+
+    public void save(MenuItem item) throws SQLException {
+        String sql = "INSERT INTO menu (nume, categorie, pret, ingrediente, vegetarian, picant, alcoolica) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, item.getName());
+            stmt.setString(2, item.getCategory());
+            stmt.setDouble(3, item.getPrice());
+            stmt.setString(4, item.getIngredients());
+            stmt.setBoolean(5, item.isVegetarian());
+            stmt.setBoolean(6, item.isSpicy());
+            stmt.setBoolean(7, item.isAlcoholic());
+
+            stmt.executeUpdate();
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    item.setId(generatedKeys.getLong(1));
+                }
+            }
+        }
+    }
+
+    public void update(MenuItem item) throws SQLException {
+        String sql = "UPDATE menu SET nume = ?, categorie = ?, pret = ?, ingrediente = ?, " +
+                    "vegetarian = ?, picant = ?, alcoolica = ? WHERE id = ?";
+
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, item.getName());
+            stmt.setString(2, item.getCategory());
+            stmt.setDouble(3, item.getPrice());
+            stmt.setString(4, item.getIngredients());
+            stmt.setBoolean(5, item.isVegetarian());
+            stmt.setBoolean(6, item.isSpicy());
+            stmt.setBoolean(7, item.isAlcoholic());
+            stmt.setLong(8, item.getId());
+
+            stmt.executeUpdate();
+        }
+    }
+
+    public void delete(long id) throws SQLException {
+        String sql = "DELETE FROM menu WHERE id = ?";
+
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
     }
 }

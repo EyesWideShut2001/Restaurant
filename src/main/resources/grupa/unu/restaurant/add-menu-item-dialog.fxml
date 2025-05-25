@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="grupa.unu.restaurant.controller.AddMenuItemDialogController"
+      styleClass="dialog-container" spacing="10">
+
+    <Label text="Adăugare Produs Nou" styleClass="dialog-title"/>
+
+    <GridPane vgap="10" hgap="10">
+        <Label text="Nume:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Categorie:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="categoryComboBox" GridPane.rowIndex="1" GridPane.columnIndex="1">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Aperitive"/>
+                    <String fx:value="Fel Principal"/>
+                    <String fx:value="Băuturi spirtoase"/>
+                    <String fx:value="Băuturi nespirtoase"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
+
+        <Label text="Preț:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="priceField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Ingrediente:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextArea fx:id="ingredientsArea" GridPane.rowIndex="3" GridPane.columnIndex="1"
+                  prefRowCount="3" wrapText="true"/>
+
+        <CheckBox fx:id="vegetarianCheck" text="Vegetarian"
+                  GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <CheckBox fx:id="spicyCheck" text="Picant"
+                  GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+        <CheckBox fx:id="alcoholicCheck" text="Conține alcool"
+                  GridPane.rowIndex="6" GridPane.columnIndex="1"
+                  visible="false" managed="false"/>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Anulează" onAction="#handleCancel" styleClass="secondary-button"/>
+        <Button text="Salvează" onAction="#handleSave" styleClass="primary-button"/>
+    </HBox>
+
+</VBox> 

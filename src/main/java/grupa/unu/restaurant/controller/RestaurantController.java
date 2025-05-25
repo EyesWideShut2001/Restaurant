@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class RestaurantController {
@@ -23,15 +22,33 @@ public class RestaurantController {
 
     @FXML
     private void handleStaffClick(javafx.event.ActionEvent event) throws IOException {
-        loadMenuView("staff", event);
+        // Staff should go through login first
+        loadLoginView("staff", event);
     }
 
     @FXML
     private void handleManagerClick(javafx.event.ActionEvent event) throws IOException {
-        //cred ca aici ar trebui verificate credentialele inainte de  loadMenuView
-        loadMenuView("manager", event);
+        // Manager should go through login first
+        loadLoginView("manager", event);
     }
 
+    private void loadLoginView(String userRole, javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/grupa/unu/restaurant/login-view.fxml"));
+        Parent root = loader.load();
+
+        LoginController controller = loader.getController();
+        controller.setUserRole(userRole);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setWidth(1024);
+        stage.setHeight(768);
+        stage.setResizable(true);
+        stage.setMinWidth(1024);
+        stage.setMinHeight(768);
+        stage.show();
+    }
 
     private void loadMenuView(String userRole, javafx.event.ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/grupa/unu/restaurant/menu-view.fxml"));
@@ -41,9 +58,13 @@ public class RestaurantController {
         controller.setUserRole(userRole);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root, 480, 480));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setWidth(1024);
+        stage.setHeight(768);
+        stage.setResizable(true);
+        stage.setMinWidth(1024);
+        stage.setMinHeight(768);
         stage.show();
     }
-
-
 }

@@ -4,208 +4,334 @@ import grupa.unu.restaurant.RestaurantDb;
 import grupa.unu.restaurant.model.Order;
 import grupa.unu.restaurant.model.OrderItem;
 import grupa.unu.restaurant.model.OrderStatus;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class OrderRepository {
+    private static final String INSERT_ORDER = "INSERT INTO orders (total_price, status, order_time) VALUES (?, ?, ?)";
+    private static final String INSERT_ORDER_ITEM = "INSERT INTO order_items (order_id, product_name, quantity, price) VALUES (?, ?, ?, ?)";
+    
+    private final Connection connection;
 
+    public OrderRepository() {
+        // Default constructor
+        this.connection = null; // Assuming connection is set up elsewhere
+    }
+
+    public OrderRepository(Connection connection) {
+        this.connection = Objects.requireNonNull(connection, "Connection cannot be null");
+    }
 
     public Order save(Order order) throws SQLException {
-        String orderInsertQuery = "INSERT INTO orders (id_order, total_price, status, estimated_time) VALUES (?, ?, ?, ?)";
-        String orderItemInsertQuery = "INSERT INTO order_items (id_item, order_id, name, price, quantity) VALUES (?, ?, ?, ?, ?)";
+        Long id = order.getId();
+        if (id == null || id == 0L) {
+            return insertOrder(order);
+        } else {
+            return updateOrder(order);
+        }
+    }
 
-        try (Connection connection = RestaurantDb.getConnection();
-             PreparedStatement orderStatement = connection.prepareStatement(orderInsertQuery);
-             PreparedStatement orderItemStatement = connection.prepareStatement(orderItemInsertQuery)) {
+    private Order insertOrder(Order order) throws SQLException {
+        String sql = "INSERT INTO orders (total_price, status, order_time, approved_by, approval_time, estimated_time, notes) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setDouble(1, order.getTotalPrice());
+            stmt.setString(2, order.getStatus());
+            stmt.setTimestamp(3, Timestamp.valueOf(order.getOrderTime()));
+            stmt.setString(4, order.getApprovedBy());
+            stmt.setTimestamp(5, order.getApprovalTime() != null ? 
+                Timestamp.valueOf(order.getApprovalTime()) : null);
+            stmt.setInt(6, order.getEstimatedTime());
+            stmt.setString(7, order.getNotes());
+            
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating order failed, no rows affected.");
+            }
 
-            // Start transaction
-            connection.setAutoCommit(false);
-
-            try {
-                // Save the Order
-                orderStatement.setLong(1, order.getId());
-                orderStatement.setDouble(2, order.getTotalPrice());
-                orderStatement.setString(3, order.getOrderStatus().name());
-                orderStatement.setInt(4, order.getEstimatedTime());
-                orderStatement.executeUpdate();
-
-                // Save each OrderItem
-                for (OrderItem item : order.getItems()) {
-                    orderItemStatement.setLong(1, item.getId());
-                    orderItemStatement.setLong(2, order.getId()); // Foreign key linking to the order
-                    orderItemStatement.setString(3, item.getProductName());
-                    orderItemStatement.setDouble(4, item.getPrice());
-                    orderItemStatement.setInt(5, item.getQuantity());
-                    orderItemStatement.addBatch(); // Add to batch for performance improvement
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    order.setId(generatedKeys.getLong(1));
+                    saveOrderItems(order);
+                    return order;
+                } else {
+                    throw new SQLException("Creating order failed, no ID obtained.");
                 }
-                orderItemStatement.executeBatch(); // Execute the batch of item inserts
-
-                // Commit transaction
-                connection.commit();
-
-            } catch (SQLException e) {
-                // Rollback transaction in case of error and propagate the exception
-                connection.rollback();
-                throw e;
-            } finally {
-                // Ensure auto-commit is reset to true
-                connection.setAutoCommit(true);
             }
         }
+    }
 
-        return order; // Return the saved order
+    private Order updateOrder(Order order) throws SQLException {
+        String sql = "UPDATE orders SET total_price = ?, status = ?, approved_by = ?, " +
+                    "approval_time = ?, estimated_time = ?, notes = ? WHERE id = ?";
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDouble(1, order.getTotalPrice());
+            stmt.setString(2, order.getStatus());
+            stmt.setString(3, order.getApprovedBy());
+            stmt.setTimestamp(4, order.getApprovalTime() != null ? 
+                Timestamp.valueOf(order.getApprovalTime()) : null);
+            stmt.setInt(5, order.getEstimatedTime());
+            stmt.setString(6, order.getNotes());
+            stmt.setLong(7, order.getId());
+            
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Updating order failed, no rows affected.");
+            }
+            
+            deleteOrderItems(order.getId());
+            saveOrderItems(order);
+            
+            return order;
+        }
+    }
+
+    private void saveOrderItems(Order order) throws SQLException {
+        String sql = "INSERT INTO order_items (order_id, product_name, price, quantity) VALUES (?, ?, ?, ?)";
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            for (OrderItem item : order.getItems()) {
+                stmt.setLong(1, order.getId());
+                stmt.setString(2, item.getProductName());
+                stmt.setDouble(3, item.getPrice());
+                stmt.setInt(4, item.getQuantity());
+                stmt.addBatch();
+            }
+            stmt.executeBatch();
+        }
+    }
+
+    private void deleteOrderItems(Long orderId) throws SQLException {
+        String sql = "DELETE FROM order_items WHERE order_id = ?";
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, orderId);
+            stmt.executeUpdate();
+        }
     }
 
     public List<Order> findAll() throws SQLException {
-        String orderQuery = "SELECT * FROM orders"; // Query to retrieve all orders
-        String orderItemsQuery = "SELECT * FROM order_items WHERE order_id = ?"; // Query to retrieve items for each order
-
+        String sql = "SELECT * FROM orders ORDER BY order_time DESC";
         List<Order> orders = new ArrayList<>();
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                orders.add(mapResultSetToOrder(rs));
+            }
+        }
+        return orders;
+    }
 
-        try (Connection connection = RestaurantDb.getConnection();
-             PreparedStatement orderStatement = connection.prepareStatement(orderQuery);
-             PreparedStatement orderItemsStatement = connection.prepareStatement(orderItemsQuery);
-             ResultSet orderResultSet = orderStatement.executeQuery()) {
-
-            while (orderResultSet.next()) {
-                // Create an Order object for each row in the 'orders' table
-                Order order = new Order(
-                        orderResultSet.getLong("id_order"),
-                        new ArrayList<>(), // Items will be fetched later
-                        orderResultSet.getDouble("total_price"),
-                        OrderStatus.valueOf(orderResultSet.getString("status")),
-                        orderResultSet.getInt("estimatedTime")
-                );
-
-                // Fetch related OrderItems for the current Order
-                orderItemsStatement.setLong(1, order.getId());
-                try (ResultSet itemsResultSet = orderItemsStatement.executeQuery()) {
-                    List<OrderItem> items = new ArrayList<>();
-                    while (itemsResultSet.next()) {
-                        // Create an OrderItem object and add it to the list
-                        OrderItem item = new OrderItem(
-                                itemsResultSet.getLong("id_item"),
-                                itemsResultSet.getString("name"),
-                                itemsResultSet.getInt("quantity"),
-                                itemsResultSet.getDouble("price")
-                        );
-                        items.add(item);
-                    }
-                    // Set the fetched items to the order
-                    order.setItems(items);
+    public List<Order> findByStatus(String status) throws SQLException {
+        String sql = "SELECT * FROM orders WHERE status = ? ORDER BY order_time DESC";
+        List<Order> orders = new ArrayList<>();
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, status);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    orders.add(mapResultSetToOrder(rs));
                 }
+            }
+        }
+        return orders;
+    }
 
-                // Add the order to the final list
+    public Order findById(long id) throws SQLException {
+        String sql = "SELECT * FROM orders WHERE id = ?";
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToOrder(rs);
+                }
+            }
+        }
+        return null;
+    }
+
+    private Order mapResultSetToOrder(ResultSet rs) throws SQLException {
+        Order order = new Order();
+        order.setId(rs.getLong("id"));
+        order.setTotalPrice(rs.getDouble("total_price"));
+        order.setStatus(rs.getString("status"));
+        order.setOrderTime(rs.getTimestamp("order_time").toLocalDateTime());
+        order.setApprovedBy(rs.getString("approved_by"));
+        
+        Timestamp approvalTime = rs.getTimestamp("approval_time");
+        if (approvalTime != null) {
+            order.setApprovalTime(approvalTime.toLocalDateTime());
+        }
+        
+        order.setEstimatedTime(rs.getInt("estimated_time"));
+        order.setNotes(rs.getString("notes"));
+        
+        loadOrderItems(order);
+        
+        return order;
+    }
+
+    private void loadOrderItems(Order order) throws SQLException {
+        String sql = "SELECT * FROM order_items WHERE order_id = ?";
+        List<OrderItem> items = new ArrayList<>();
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, order.getId());
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    OrderItem item = new OrderItem();
+                    item.setId(rs.getLong("id"));
+                    item.setProductName(rs.getString("product_name"));
+                    item.setQuantity(rs.getInt("quantity"));
+                    item.setPrice(rs.getDouble("price"));
+                    items.add(item);
+                }
+            }
+        }
+        
+        order.setItems(FXCollections.observableArrayList(items));
+    }
+
+    public List<Order> getOrdersByStatus(String status) throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM orders WHERE status = ? ORDER BY order_time DESC";
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            stmt.setString(1, status);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Order order = new Order();
+                order.setId(rs.getLong("id"));
+                order.setStatus(rs.getString("status"));
+                order.setOrderTime(rs.getTimestamp("order_time").toLocalDateTime());
+                
+                // Load order items
+                order.setItems(FXCollections.observableArrayList(getOrderItems(order.getId())));
                 orders.add(order);
             }
         }
-
+        
         return orders;
     }
-    public Optional<Order> findById(Long id) throws SQLException {
-        String orderQuery = "SELECT * FROM orders WHERE id_order = ?";
-        String orderItemsQuery = "SELECT * FROM order_items WHERE order_id = ?"; // Assuming `order_items` table exists
 
-        try (Connection connection = RestaurantDb.getConnection();
-             PreparedStatement orderStatement = connection.prepareStatement(orderQuery);
-             PreparedStatement orderItemsStatement = connection.prepareStatement(orderItemsQuery)) {
-
-            // Prepare the statement to get the Order
-            orderStatement.setLong(1, id);
-            try (ResultSet orderResultSet = orderStatement.executeQuery()) {
-                if (orderResultSet.next()) {
-                    // Create the Order object
-                    Order order = new Order(
-                            orderResultSet.getLong("id_order"),
-                            new ArrayList<>(), // Items will be fetched later
-                            orderResultSet.getDouble("total_price"),
-                            OrderStatus.valueOf(orderResultSet.getString("status")),
-                            orderResultSet.getInt("estimatedTime")
-                    );
-
-                    // Fetch related OrderItems
-                    orderItemsStatement.setLong(1, id);
-                    try (ResultSet itemsResultSet = orderItemsStatement.executeQuery()) {
-                        List<OrderItem> items = new ArrayList<>();
-                        while (itemsResultSet.next()) {
-                            // Create an OrderItem object and add it to the list
-                            OrderItem item = new OrderItem(
-                                    itemsResultSet.getLong("id_item"),
-                                    itemsResultSet.getString("name"),
-                                    itemsResultSet.getInt("quantity"),
-                                    itemsResultSet.getDouble("price")
-
-                            );
-                            items.add(item);
-                        }
-                        // Set the fetched items to the order
-                        order.setItems(items);
-                    }
-
-                    return Optional.of(order);
-                }
+    private List<OrderItem> getOrderItems(long orderId) throws SQLException {
+        List<OrderItem> items = new ArrayList<>();
+        String query = "SELECT * FROM order_items WHERE order_id = ?";
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            stmt.setLong(1, orderId);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                OrderItem item = new OrderItem(
+                    rs.getString("product_name"),
+                    rs.getDouble("price"),
+                    rs.getInt("quantity")
+                );
+                items.add(item);
             }
         }
-
-        return Optional.empty();
+        
+        return items;
     }
+
+    public void updateOrderStatus(long orderId, String status, String approvedBy) throws SQLException {
+        String sql = "UPDATE orders SET status = ?, approved_by = ?, approval_time = ? WHERE id = ?";
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, status);
+            stmt.setString(2, approvedBy);
+            stmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setLong(4, orderId);
+            
+            stmt.executeUpdate();
+        }
+    }
+
+    public void updateOrderDetails(Order order) throws SQLException {
+        String sql = "UPDATE orders SET estimated_time = ?, notes = ? WHERE id = ?";
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, order.getEstimatedTime());
+            stmt.setString(2, order.getNotes());
+            stmt.setLong(3, order.getId());
+            
+            stmt.executeUpdate();
+        }
+    }
+
+    public List<Order> getAllOrders() throws SQLException {
+        String sql = "SELECT * FROM orders ORDER BY order_time DESC";
+        List<Order> orders = new ArrayList<>();
+        
+        try (Connection conn = RestaurantDb.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                Order order = new Order();
+                order.setId(rs.getLong("id"));
+                order.setStatus(rs.getString("status"));
+                order.setOrderTime(rs.getTimestamp("order_time").toLocalDateTime());
+                
+                // Load order items
+                order.setItems(FXCollections.observableArrayList(getOrderItems(order.getId())));
+                orders.add(order);
+            }
+        }
+        
+        return orders;
+    }
+
     public void deleteById(Long id) throws SQLException {
-        // Query to delete all items related to a specific order
-        String deleteItemsQuery = "DELETE FROM order_items WHERE order_id = ?";
-
-        // Query to delete the order itself
-        String deleteOrderQuery = "DELETE FROM orders WHERE id_order = ?";
-
-        try (Connection connection = RestaurantDb.getConnection();
-             PreparedStatement deleteItemsStatement = connection.prepareStatement(deleteItemsQuery);
-             PreparedStatement deleteOrderStatement = connection.prepareStatement(deleteOrderQuery)) {
-
-            // Start transaction
-            connection.setAutoCommit(false);
-
-            try {
-                // Delete items belonging to the order
-                deleteItemsStatement.setLong(1, id);
-                deleteItemsStatement.executeUpdate();
-
-                // Delete the order
-                deleteOrderStatement.setLong(1, id);
-                deleteOrderStatement.executeUpdate();
-
-                // Commit transaction
-                connection.commit();
-
-            } catch (SQLException e) {
-                // Rollback transaction in case of an error
-                connection.rollback();
-                throw e;
-            } finally {
-                // Reset auto-commit to true
-                connection.setAutoCommit(true);
+        connection.setAutoCommit(false);
+        try {
+            deleteOrderItems(id);
+            
+            String sql = "DELETE FROM orders WHERE id = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, id);
+                stmt.executeUpdate();
             }
+            
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
         }
     }
 
-    public boolean updateOrderStatus(Long orderId, OrderStatus status) throws SQLException {
-        String sql = "UPDATE orders SET status = ? WHERE id_order = ?";
-        try (Connection conn = RestaurantDb.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, status.name());
-            stmt.setLong(2, orderId);
-            return stmt.executeUpdate() == 1;
-        }
-    }
-
-    public boolean updateEstimatedTime(long orderId, int estimatedTime) throws SQLException {
-        String sql = "UPDATE orders SET estimated_time = ? WHERE id_order = ?";
-        try (Connection conn = RestaurantDb.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    public boolean updateEstimatedTime(Long orderId, int estimatedTime) throws SQLException {
+        String sql = "UPDATE orders SET estimated_time = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, estimatedTime);
             stmt.setLong(2, orderId);
             return stmt.executeUpdate() == 1;

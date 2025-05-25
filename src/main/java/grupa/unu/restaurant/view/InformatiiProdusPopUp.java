@@ -1,21 +1,22 @@
 package grupa.unu.restaurant.view;
 
 import grupa.unu.restaurant.model.MenuItem;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
-public class InformatiiProdusPopUp {
+public class InformatiiProdusPopUp extends VBox {
+    public InformatiiProdusPopUp(MenuItem item) {
+        setSpacing(10);
+        setPadding(new javafx.geometry.Insets(10));
 
-    public static void afiseazaDetalii(MenuItem item) {
-        String info = "Ingrediente: " + item.getIngrediente() +
-                "\nVegetarian: " + (item.isVegetarian() ? "Da" : "Nu") +
-                "\nPicant: " + (item.isPicant() ? "Da" : "Nu");
+        Label ingredienteLabel = new Label("Ingrediente: " + item.getIngredients());
+        Label picantLabel = new Label(item.isSpicy() ? "Picant: Da" : "Picant: Nu");
+        Label vegetarianLabel = new Label(item.isVegetarian() ? "Vegetarian: Da" : "Vegetarian: Nu");
 
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Detalii produs");
-        alert.setHeaderText("Detalii: " + item.getNume());
-        alert.setContentText(info);
-        alert.showAndWait();
+        Label titleLabel = new Label(item.getName());
+        titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+        getChildren().addAll(titleLabel, ingredienteLabel, picantLabel, vegetarianLabel);
     }
 }
 

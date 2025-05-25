@@ -1,46 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Pos?>
 
-<VBox alignment="TOP_CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="grupa.unu.restaurant.controller.MenuViewController"
-      prefWidth="480" prefHeight="480">
+      stylesheets="@styles.css">
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+    <!-- Navigation Bar -->
+    <HBox styleClass="nav-bar" spacing="10" alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="5" right="10" bottom="5" left="10"/>
+        </padding>
+        <Button text="← Înapoi la Principal" onAction="#handleBackClick" styleClass="nav-button"/>
+        <Button fx:id="myOrdersButton" text="Comenzile Mele" onAction="#showMyOrders" styleClass="nav-button"/>
+        <Button fx:id="viewCartButton" text="Coșul Meu" onAction="#showCart" styleClass="nav-button"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="logoutButton" text="Deconectare" onAction="#handleLogout" styleClass="danger-button"/>
+    </HBox>
 
-    <Label text="Menu" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+        <VBox spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <!-- Appetizers Section -->
+            <VBox styleClass="menu-category">
+                <Text text="Aperitive" styleClass="category-title"/>
+                <GridPane fx:id="appetizersGrid" vgap="10" hgap="10">
+                    <padding>
+                        <Insets top="10"/>
+                    </padding>
+                </GridPane>
+            </VBox>
 
-    <GridPane hgap="20" vgap="10">
-        <columnConstraints>
-            <ColumnConstraints halignment="LEFT"/>
-        </columnConstraints>
+            <!-- Main Courses Section -->
+            <VBox styleClass="menu-category">
+                <Text text="Feluri principale" styleClass="category-title"/>
+                <GridPane fx:id="mainCoursesGrid" vgap="10" hgap="10">
+                    <padding>
+                        <Insets top="10"/>
+                    </padding>
+                </GridPane>
+            </VBox>
 
+            <!-- Alcoholic Beverages Section -->
+            <VBox styleClass="menu-category">
+                <Text text="Băuturi spirtoase" styleClass="category-title"/>
+                <GridPane fx:id="alcoholicBeveragesGrid" vgap="10" hgap="10">
+                    <padding>
+                        <Insets top="10"/>
+                    </padding>
+                </GridPane>
+            </VBox>
 
-        <!--m- am gandit sa avem un singur view comun pt toate cele trei
-         categorii de useri, iar la staff si manager vor exista optiuni in plus -->
+            <!-- Non-Alcoholic Beverages Section -->
+            <VBox styleClass="menu-category">
+                <Text text="Băuturi nespirtoase" styleClass="category-title"/>
+                <GridPane fx:id="nonAlcoholicBeveragesGrid" vgap="10" hgap="10">
+                    <padding>
+                        <Insets top="10"/>
+                    </padding>
+                </GridPane>
+            </VBox>
+        </VBox>
+    </ScrollPane>
 
-        <Label text="Aperitive" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <Label text="Feluri principale" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <Label text="Băuturi spirtoase" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <Label text="Băuturi nespirtoase" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-    </GridPane>
-
-    <!-- Buton opțional(in teorie ar trebui sa nu existe) pentru revenire -->
-    <Button fx:id="backButton" text="Back" onAction="#handleBackClick"/>
-
-
-    <!-- Acestea sunt optiuni in plus(pt staff/manager); ele sunt by defaul puse pe false,
-        iar din MenuViewController se pune pe true cand e nevoie -->
-
-    <Button fx:id="addMenuItemsButton" text="Add Menu Items" visible="false"/>
-    <Button fx:id="staffSpecialButton" text="Staff Options" visible="false"/>
-
-
+    <!-- Cart Summary -->
+    <HBox styleClass="cart-summary" alignment="CENTER_RIGHT" spacing="10">
+        <padding>
+            <Insets top="10" right="20" bottom="10" left="20"/>
+        </padding>
+        <Label text="Total: "/>
+        <Label fx:id="totalPrice" text="0.00 RON"/>
+        <Button text="Plasează Comanda" onAction="#placeOrder" styleClass="primary-button"/>
+    </HBox>
 
 </VBox>

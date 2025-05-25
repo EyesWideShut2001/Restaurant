@@ -1,12 +1,13 @@
 package grupa.unu.restaurant.model;
 
 import grupa.unu.restaurant.repository.OrderRepository;
-
+import javafx.collections.FXCollections;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCart {
     private List<OrderItem> itemList;
+    
     public ShoppingCart() {
         itemList = new ArrayList<>();
     }
@@ -17,7 +18,7 @@ public class ShoppingCart {
 
     public void addItem(OrderItem item) {
         for(OrderItem i : itemList) {
-            if(i.getId().equals(item.getId())){
+            if(i.getProductName().equals(item.getProductName())) {
                 i.setQuantity(i.getQuantity() + item.getQuantity());
                 return;
             }
@@ -25,22 +26,25 @@ public class ShoppingCart {
         itemList.add(item);
     }
 
-    public void removeItem(Long id) {
-        itemList.removeIf(item -> item.getId().equals(id));
+    public void removeItem(String productName) {
+        itemList.removeIf(item -> item.getProductName().equals(productName));
     }
 
-    public double getTotalPrice(){
-        return itemList.stream().mapToDouble(OrderItem::getPrice).sum();
+    public double getTotalPrice() {
+        return itemList.stream()
+                .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                .sum();
     }
 
-    public Order checkoutOrder(){
-        int maxTime = itemList.stream().mapToInt(OrderItem::getQuantity).max().orElse(0);
-        Order order = new Order(null, new ArrayList<>(itemList), getTotalPrice(), OrderStatus.IN_ASTEPTARE, maxTime);
+    public Order checkoutOrder() {
+        Order order = new Order();
+        order.setItems(FXCollections.observableArrayList(itemList));
+        order.setStatus(OrderStatus.PENDING.name());
         clearCart();
         return order;
     }
 
-    public void clearCart(){
+    public void clearCart() {
         itemList.clear();
     }
 
