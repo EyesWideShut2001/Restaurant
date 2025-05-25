@@ -112,4 +112,8 @@ public class StaffRepository {
             stmt.executeUpdate();
         }
     }
+
+    public Connection getDbConnection() throws SQLException {
+        return RestaurantDb.getConnection();
+    }
 }
