@@ -62,19 +62,6 @@ class TestAdelina {
         assertEquals(estimatedTime, order.estimatedTimeProperty().get(), "Proprietatea de timp estimat trebuie sa fie corecta");
     }
 
-    // Testeaza metoda toString
-    @Test
-    void testToString() {
-        order.setId(1L);
-        order.setStatus("PENDING");
-        ObservableList<OrderItem> items = FXCollections.observableArrayList(
-            new OrderItem("Pizza", 25.0, 2)
-        );
-        order.setItems(items);
-
-        String expected = "Order #1 - PENDING";
-    }
-
     // Testeaza proprietatile initiale
     @Test
     void testEmptyOrderProperties() {
@@ -82,6 +69,14 @@ class TestAdelina {
         assertNull(order.getApprovedBy(), "Aprobat de trebuie sa fie initial null");
         assertEquals("", order.getNotes() == null ? "" : order.getNotes(), "Notele initiale trebuie sa fie goale");
         assertNull(order.getItems(), "Lista de items initiala trebuie sa fie null");
+    }
+
+    // Testul verifica daca metoda de plata este setata si preluata corect
+    @Test
+    void testPaymentMethod() {
+        String expectedMethod = "Card";
+        order.setPaymentMethod(expectedMethod);
+        assertEquals(expectedMethod, order.getPaymentMethod(), "Metoda de plată nu a fost salvată corect");
     }
 
 }
