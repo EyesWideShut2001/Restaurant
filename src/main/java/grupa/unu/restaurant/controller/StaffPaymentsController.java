@@ -147,18 +147,7 @@ public class StaffPaymentsController {
         }
     }
 
-//    @FXML
-//    public void applyFilters() {
-//        loadPayments();
-//    }
 
-//    @FXML
-//    public void resetFilters() {
-//        paymentMethodFilter.setValue("Toate");
-//        startDate.setValue(null);
-//        endDate.setValue(null);
-//        loadPayments();
-//    }
 
     @FXML
     public void handleBack() {

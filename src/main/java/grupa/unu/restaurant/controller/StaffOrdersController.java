@@ -303,49 +303,7 @@ public class StaffOrdersController {
         }
     }
     
-//    @FXML
-//    private void handleProcessPayment() {
-//        Order selectedOrder = ordersTable.getSelectionModel().getSelectedItem();
-//        if (selectedOrder == null) {
-//            showAlert(Alert.AlertType.WARNING, "Selectare comandă",
-//                     "Vă rugăm să selectați o comandă pentru procesare plată.");
-//            return;
-//        }
-//
-//        if (!"SERVED".equals(selectedOrder.getStatus())) {
-//            showAlert(Alert.AlertType.WARNING, "Status comandă incorect",
-//                     "Plata poate fi procesată doar pentru comenzile servite.");
-//            return;
-//        }
-//
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/grupa/unu/restaurant/payment-view.fxml"));
-//            PaymentController paymentController = new PaymentController(
-//                new OrderRepository(RestaurantDb.getConnection()),
-//                new PaymentRepository(),
-//                selectedOrder
-//            );
-//            loader.setController(paymentController);
-//
-//            Stage paymentStage = new Stage();
-//            paymentStage.setTitle("Procesare Plată - Comanda #" + selectedOrder.getId());
-//            paymentStage.initModality(Modality.WINDOW_MODAL);
-//            paymentStage.initOwner(ordersTable.getScene().getWindow());
-//
-//            Scene scene = new Scene(loader.load());
-//            paymentStage.setScene(scene);
-//
-//            paymentController.setDialogStage(paymentStage);
-//            paymentStage.showAndWait();
-//
-//            // Refresh orders after payment processing
-//            loadOrders();
-//        } catch (IOException | SQLException e) {
-//            showAlert(Alert.AlertType.ERROR, "Eroare",
-//                     "Nu s-a putut deschide fereastra de procesare plată: " + e.getMessage());
-//        }
-//    }
-//
+
     @FXML
     private void backToMenu() {
         try {

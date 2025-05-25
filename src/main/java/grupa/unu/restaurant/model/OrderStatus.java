@@ -2,8 +2,6 @@ package grupa.unu.restaurant.model;
 
 public enum OrderStatus {
     PENDING("În așteptare"),
-    APPROVED("Aprobată"),
-    REJECTED("Respinsă"),
     IN_PREPARATION("În preparare"),
     READY("Gata"),
     DELIVERED("Livrată");

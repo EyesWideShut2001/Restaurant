@@ -232,29 +232,6 @@ public class MenuViewController {
         }
     }
 
-//    @FXML
-//    private void exitApplication() {
-//        Platform.exit();
-//    }
-//
-//    @FXML
-//    private void showLogin() {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/grupa/unu/restaurant/login-view.fxml"));
-//            Parent root = loader.load();
-//            Stage stage = (Stage) appetizersGrid.getScene().getWindow();
-//            Scene scene = new Scene(root);
-//            stage.setScene(scene);
-//            stage.setWidth(1024);
-//            stage.setHeight(768);
-//            stage.setResizable(true);
-//            stage.setMinWidth(1024);
-//            stage.setMinHeight(768);
-//            stage.show();
-//        } catch (IOException e) {
-//            showError("Error", "Could not show login view: " + e.getMessage());
-//        }
-//    }
 
     @FXML
     private void placeOrder() {
@@ -262,27 +239,9 @@ public class MenuViewController {
         showCart();
     }
 
-//    @FXML
-//    private void handleAddMenuItems() {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/grupa/unu/restaurant/add-menu-item-dialog.fxml"));
-//            Parent root = loader.load();
-//            Stage stage = new Stage();
-//            stage.setTitle("Add Menu Items");
-//            Scene scene = new Scene(root);
-//            stage.setScene(scene);
-//            stage.setWidth(400);
-//            stage.setHeight(500);
-//            stage.show();
-//        } catch (IOException e) {
-//            showError("Error", "Could not load add menu items dialog: " + e.getMessage());
-//        }
-//    }
 
-//    @FXML
-//    private void handleStaffSpecial() {
-//        // TODO: Implement staff special functionality
-//    }
+
+
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;

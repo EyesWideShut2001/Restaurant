@@ -14,16 +14,5 @@ public class StaffController {
         this.staffRepository = staffRepository;
     }
 
-//    public List<Staff> getAllStaff() throws SQLException {
-//        return staffRepository.findAll();
-//    }
-//
-//    public boolean addStaff(String username, String password, String role) throws SQLException {
-//        Staff staff = new Staff(0, username, password, role);
-//        return staffRepository.addStaff(staff);
-//    }
-//
-//    public boolean deleteStaffById(int id) throws SQLException {
-//        return staffRepository.deleteStaffById(id);
-//    }
+
 }

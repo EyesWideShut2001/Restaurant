@@ -38,8 +38,7 @@ public class CartController {
     @FXML
     private Label vatLabel;
 
-//    @FXML
-//    private Label totalLabel;
+
 
     private final CartService cartService;
     private final OrderRepository orderRepository;
@@ -87,15 +86,7 @@ public class CartController {
         cartTable.setItems(cartService.getCartItems());
     }
 
-//    @FXML
-//    private void handleRemoveFromCart() {
-//        OrderItem selectedItem = cartTable.getSelectionModel().getSelectedItem();
-//        if (selectedItem != null) {
-//            cartService.removeFromCart(selectedItem);
-//            loadCartItems();
-//            updateTotals();
-//        }
-//    }
+
 
     @FXML
     private void handleClearCart() {
@@ -193,13 +184,5 @@ public class CartController {
         alert.showAndWait();
     }
 
-//    public void closeConnection() {
-//        if (connection != null) {
-//            try {
-//                connection.close();
-//            } catch (SQLException e) {
-//                logger.log(Level.WARNING, "Error closing database connection", e);
-//            }
-//        }
-//    }
+
 } 
