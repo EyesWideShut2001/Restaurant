@@ -1924,6 +1924,41 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at com.h2database@2.2.224/org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at com.h2database@2.2.224/org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 78 more
+2025-05-25 17:49:16.267454+03:00 database: flush
+org.h2.message.DbException: General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/User2020.09.14/Desktop/Restaurant/data/restaurant.mv.db [2.2.224/7]" [50000-224]
+	at com.h2database@2.2.224/org.h2.message.DbException.get(DbException.java:212)
+	at com.h2database@2.2.224/org.h2.message.DbException.convert(DbException.java:407)
+	at com.h2database@2.2.224/org.h2.mvstore.db.Store.lambda$new$0(Store.java:122)
+	at com.h2database@2.2.224/org.h2.mvstore.MVStore.handleException(MVStore.java:1546)
+	at com.h2database@2.2.224/org.h2.mvstore.MVStore.panic(MVStore.java:371)
+	at com.h2database@2.2.224/org.h2.mvstore.MVStore.<init>(MVStore.java:291)
+	at com.h2database@2.2.224/org.h2.mvstore.MVStore$Builder.open(MVStore.java:2035)
+	at com.h2database@2.2.224/org.h2.mvstore.db.Store.<init>(Store.java:133)
+	at com.h2database@2.2.224/org.h2.engine.Database.<init>(Database.java:326)
+	at com.h2database@2.2.224/org.h2.engine.Engine.openSession(Engine.java:92)
+	at com.h2database@2.2.224/org.h2.engine.Engine.openSession(Engine.java:222)
+	at com.h2database@2.2.224/org.h2.engine.Engine.createSession(Engine.java:201)
+	at com.h2database@2.2.224/org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:343)
+	at com.h2database@2.2.224/org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:125)
+	at com.h2database@2.2.224/org.h2.Driver.connect(Driver.java:59)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:682)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
+	at grupa.unu.restaurant/grupa.unu.restaurant.RestaurantDb.getConnection(RestaurantDb.java:30)
+	at grupa.unu.restaurant/grupa.unu.restaurant.RestaurantApplication.init(RestaurantApplication.java:25)
+	at javafx.graphics/com.sun.javafx.application.LauncherImpl.launchApplication1(LauncherImpl.java:825)
+	at javafx.graphics/com.sun.javafx.application.LauncherImpl.lambda$launchApplication$2(LauncherImpl.java:196)
+	at java.base/java.lang.Thread.run(Thread.java:1575)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/User2020.09.14/Desktop/Restaurant/data/restaurant.mv.db [2.2.224/7]" [50000-224]
+	at com.h2database@2.2.224/org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at com.h2database@2.2.224/org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 22 more
+Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/User2020.09.14/Desktop/Restaurant/data/restaurant.mv.db [2.2.224/7]
+	at com.h2database@2.2.224/org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:996)
+	at com.h2database@2.2.224/org.h2.mvstore.SingleFileStore.lockFileChannel(SingleFileStore.java:143)
+	at com.h2database@2.2.224/org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:117)
+	at com.h2database@2.2.224/org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
+	at com.h2database@2.2.224/org.h2.mvstore.MVStore.<init>(MVStore.java:286)
+	... 16 more
 2025-05-25 14:10:36.437287+03:00 jdbc[17]: null
 org.h2.message.DbException: The connection was not closed by the application and is garbage collected [90018-224]
 	at com.h2database@2.2.224/org.h2.message.DbException.get(DbException.java:223)
