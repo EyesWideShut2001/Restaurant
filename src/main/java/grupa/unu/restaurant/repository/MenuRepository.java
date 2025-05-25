@@ -1,3 +1,4 @@
+
 package grupa.unu.restaurant.repository;
 
 import grupa.unu.restaurant.RestaurantDb;
@@ -20,14 +21,14 @@ public class MenuRepository {
 
             while (rs.next()) {
                 MenuItem item = new MenuItem(
-                    rs.getLong("id"),
-                    rs.getString("nume"),
-                    rs.getString("categorie"),
-                    rs.getDouble("pret"),
-                    rs.getString("ingrediente"),
-                    rs.getBoolean("vegetarian"),
-                    rs.getBoolean("picant"),
-                    rs.getBoolean("alcoolica")
+                        rs.getLong("id"),
+                        rs.getString("nume"),
+                        rs.getString("categorie"),
+                        rs.getDouble("pret"),
+                        rs.getString("ingrediente"),
+                        rs.getBoolean("vegetarian"),
+                        rs.getBoolean("picant"),
+                        rs.getBoolean("alcoolica")
                 );
                 item.setAvailable(rs.getBoolean("available"));
                 items.add(item);
@@ -37,8 +38,8 @@ public class MenuRepository {
     }
 
     public void save(MenuItem item) throws SQLException {
-        String sql = "INSERT INTO menu (nume, categorie, pret, ingrediente, vegetarian, picant, alcoolica) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO menu (nume, categorie, pret, ingrediente, vegetarian, picant, alcoolica, available) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -64,7 +65,7 @@ public class MenuRepository {
 
     public void update(MenuItem item) throws SQLException {
         String sql = "UPDATE menu SET nume = ?, categorie = ?, pret = ?, ingrediente = ?, " +
-                    "vegetarian = ?, picant = ?, alcoolica = ?, available = ? WHERE id = ?";
+                "vegetarian = ?, picant = ?, alcoolica = ?, available = ? WHERE id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

@@ -86,9 +86,33 @@ VALUES
 -- Insert default menu items
 INSERT INTO menu (nume, ingrediente, vegetarian, picant, pret, categorie, alcoolica)
 VALUES
+-- Aperitive
 ('Bruschete cu roșii', 'Pâine, roșii, usturoi, busuioc, ulei de măsline', true, false, 18.00, 'Aperitive', false),
 ('Bruschete cu pesto', 'Pâine, busuioc, usturoi, parmezan, pin, ulei de măsline', true, false, 20.00, 'Aperitive', false),
 ('Bruschete cu somon', 'Pâine, somon afumat, cremă de brânză, mărar', false, false, 25.00, 'Aperitive', false),
+
+-- Băuturi nespirtoase
 ('Apă plată', 'Apă minerală naturală', true, false, 8.00, 'Băuturi nespirtoase', false),
 ('Apă minerală', 'Apă minerală carbogazoasă', true, false, 8.00, 'Băuturi nespirtoase', false),
-('Limonadă', 'Lămâie, apă minerală, zahăr, mentă', true, false, 15.00, 'Băuturi nespirtoase', false);
+('Limonadă', 'Lămâie, apă minerală, zahăr, mentă', true, false, 15.00, 'Băuturi nespirtoase', false),
+
+-- Băuturi spirtoase
+('Whisky', 'Whisky', false, false, 22.00, 'Băuturi spirtoase', true),
+('Vodcă', 'Vodcă', false, false, 18.00, 'Băuturi spirtoase', true),
+('Rom', 'Rom brun', false, false, 20.00, 'Băuturi spirtoase', true),
+
+-- Supe
+('Supă cremă de legume', 'Morcovi, țelină, cartofi, smântână, condimente', true, false, 16.00, 'Fel Principal', false),
+('Ciorbă de burtă', 'Burtă de vită, smântână, usturoi, oțet', false, false, 20.00, 'Fel Principal', false),
+
+-- Feluri de carne
+('Piept de pui la grătar', 'Piept de pui, condimente, ulei de măsline', false, false, 28.00, 'Fel Principal', false),
+('Ceafă de porc la grătar', 'Ceafă de porc, usturoi, condimente', false, false, 30.00, 'Fel Principal', false),
+
+-- Produse vegetariene
+('Tocăniță de legume', 'Vinete, dovlecei, roșii, ceapă, ardei', true, false, 22.00, 'Fel Principal', false),
+('Paste cu sos de roșii și busuioc', 'Paste, roșii, usturoi, busuioc, ulei de măsline', true, false, 24.00, 'Fel Principal', false),
+
+-- Garnituri
+('Cartofi prăjiți', 'Cartofi, ulei, sare', true, false, 10.00, 'Fel Principal', false),
+('Orez cu legume', 'Orez, morcovi, mazăre, porumb', true, false, 12.00, 'Fel Principal', false);
