@@ -1,3 +1,4 @@
+
 package grupa.unu.restaurant.controller;
 
 import grupa.unu.restaurant.model.*;
@@ -21,7 +22,7 @@ public class PaymentController {
     @FXML private ToggleGroup paymentMethodGroup;
     @FXML private RadioButton cardPaymentRadio;
     @FXML private RadioButton cashPaymentRadio;
-    
+
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
     private final Order order;
@@ -33,7 +34,27 @@ public class PaymentController {
         this.order = order;
     }
 
+    @FXML
+    public void initialize() {
+        // Ascunde formularul de card la început
+        cardPaymentForm.setVisible(false);
+        cardPaymentForm.setManaged(false);
 
+        // Adaugă listener pe ToggleGroup pentru a afișa/ascunde formularul de card
+        paymentMethodGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle != null) {
+                RadioButton selected = (RadioButton) newToggle;
+                boolean isCard = "Card".equals(selected.getText());
+                cardPaymentForm.setVisible(isCard);
+                cardPaymentForm.setManaged(isCard);
+            }
+        });
+
+        // Opțional: setează suma totală
+        if (order != null && totalAmountLabel != null) {
+            totalAmountLabel.setText(String.format("%.2f RON", order.getTotalPrice()));
+        }
+    }
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -44,7 +65,7 @@ public class PaymentController {
         try {
             String paymentMethod = ((RadioButton) paymentMethodGroup.getSelectedToggle()).getText();
             Payment payment;
-            
+
             if ("Numerar".equals(paymentMethod)) {
                 payment = new CashPayment(order.getTotalPrice(), order);
             } else if ("Card".equals(paymentMethod)) {
@@ -59,26 +80,26 @@ public class PaymentController {
 
             // Generate receipt number
             String receiptNumber = generateReceiptNumber();
-            
+
             // Process payment and save to database
             payment.processPayment();
             paymentRepository.savePayment(payment, order.getId(), receiptNumber);
-            
+
             // Update order status and payment details
             order.setStatus("COMPLETED");
             order.setPaymentMethod(paymentMethod);
             order.setReceiptNumber(receiptNumber);
             order.setPaymentTime(LocalDateTime.now());
             orderRepository.save(order);
-            
+
             // Generate and print receipt
             Receipt receipt = new Receipt(receiptNumber, order, payment);
             receipt.generateReceipt();
-            
-            showSuccess("Plată procesată cu succes", 
-                       String.format("Comanda a fost finalizată și chitanța a fost generată.\nNumăr chitanță: %s\nSumă totală: %.2f RON", 
-                                   receiptNumber, order.getTotalPrice()));
-            
+
+            showSuccess("Plată procesată cu succes",
+                    String.format("Comanda a fost finalizată și chitanța a fost generată.\nNumăr chitanță: %s\nSumă totală: %.2f RON",
+                            receiptNumber, order.getTotalPrice()));
+
             dialogStage.close();
         } catch (SQLException e) {
             showError("Eroare", "Nu s-a putut procesa plata: " + e.getMessage());
@@ -102,9 +123,9 @@ public class PaymentController {
     }
 
     private String generateReceiptNumber() {
-        return String.format("RCP%s%d", 
-            UUID.randomUUID().toString().substring(0, 8).toUpperCase(),
-            System.currentTimeMillis() % 10000);
+        return String.format("RCP%s%d",
+                UUID.randomUUID().toString().substring(0, 8).toUpperCase(),
+                System.currentTimeMillis() % 10000);
     }
 
     @FXML
