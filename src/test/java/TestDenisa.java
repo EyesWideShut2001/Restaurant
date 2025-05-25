@@ -1,93 +1,62 @@
-import javafx.application.Platform;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.util.concurrent.CountDownLatch;
+import org.junit.jupiter.api.Test;
+import grupa.unu.restaurant.model.PaymentRecord;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestDenisa {
+public class TestDenisa {
 
-    private TextField cardNumberField;
-    private TextField cvvField;
-    private DatePicker expiryDatePicker;
-
-    // Metodă privată care validează datele cardului introduse
-    private boolean validateCardPaymentDetails() {
-        if (cardNumberField.getText().isEmpty() || cardNumberField.getText().length() < 16) {
-            return false;
-        }
-        if (cvvField.getText().isEmpty() || cvvField.getText().length() != 3) {
-            return false;
-        }
-        if (expiryDatePicker.getValue() == null) {
-            return false;
-        }
-        return true;
-    }
-
-    // Metodă statică care se execută o singură dată înainte de toate testele
-    @BeforeAll
-    static void initJFX() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(1);
-        Platform.startup(latch::countDown);
-        latch.await();
-    }
-
-    // Metodă care se execută înaintea fiecărui test pentru a inițializa câmpurile
-    @BeforeEach
-    void setUp() {
-        cardNumberField = new TextField();
-        cvvField = new TextField();
-        expiryDatePicker = new DatePicker();
-    }
-
-    // Test pentru cazul când toate câmpurile sunt valide
     @Test
-    void testAllValid() {
-        cardNumberField.setText("1234567812345678");
-        cvvField.setText("123");
-        expiryDatePicker.setValue(LocalDate.of(2026, 12, 31));
-        assertTrue(validateCardPaymentDetails(), "Toate câmpurile sunt valide");
+    void testConstructorInitialValues() {
+        LocalDateTime now = LocalDateTime.now();
+        PaymentRecord record = new PaymentRecord(1L, 50.0, "Card", "1234567812345678", "RCP1234", now);
+
+        assertEquals(1L, record.getOrderId());
+        assertEquals(50.0, record.getAmount());
+        assertEquals("Card", record.getPaymentMethod());
+        assertEquals("1234567812345678", record.getCardNumber());
+        assertEquals("RCP1234", record.getReceiptNumber());
+        assertEquals(now, record.getPaymentDate());
     }
 
-    // Test pentru numărul de card invalid (prea scurt)
     @Test
-    void testInvalidCardNumber() {
-        cardNumberField.setText("123");
-        cvvField.setText("123");
-        expiryDatePicker.setValue(LocalDate.of(2026, 12, 31));
-        assertFalse(validateCardPaymentDetails(), "Numărul cardului este prea scurt");
+    void testSettersAndGetters() {
+        PaymentRecord record = new PaymentRecord(0L, 0.0, "", "", "", null);
+
+        record.setOrderId(10L);
+        record.setAmount(99.99);
+        record.setPaymentMethod("Numerar");
+        record.setCardNumber("0000111122223333");
+        record.setReceiptNumber("RCP0001");
+        LocalDateTime date = LocalDateTime.of(2025, 5, 26, 10, 30);
+        record.setPaymentDate(date);
+
+        assertEquals(10L, record.getOrderId());
+        assertEquals(99.99, record.getAmount());
+        assertEquals("Numerar", record.getPaymentMethod());
+        assertEquals("0000111122223333", record.getCardNumber());
+        assertEquals("RCP0001", record.getReceiptNumber());
+        assertEquals(date, record.getPaymentDate());
     }
 
-    // Test pentru CVV gol
     @Test
-    void testEmptyCVV() {
-        cardNumberField.setText("1234567812345678");
-        cvvField.setText("");
-        expiryDatePicker.setValue(LocalDate.of(2026, 12, 31));
-        assertFalse(validateCardPaymentDetails(), "CVV-ul este gol");
+    void testOrderIdProperty() {
+        PaymentRecord record = new PaymentRecord(5L, 0, "", "", "", LocalDateTime.now());
+        record.orderIdProperty().set(42L);
+        assertEquals(42L, record.getOrderId());
     }
 
-    // Test pentru CVV cu lungime incorectă
     @Test
-    void testInvalidCVVLength() {
-        cardNumberField.setText("1234567812345678");
-        cvvField.setText("12");
-        expiryDatePicker.setValue(LocalDate.of(2026, 12, 31));
-        assertFalse(validateCardPaymentDetails(), "CVV-ul are lungime incorectă");
+    void testAmountPropertyBinding() {
+        PaymentRecord record = new PaymentRecord(1L, 25.5, "", "", "", LocalDateTime.now());
+        record.amountProperty().set(record.amountProperty().get() + 10.0);
+        assertEquals(35.5, record.getAmount());
     }
 
-    // Test pentru lipsa datei de expirare
     @Test
-    void testMissingExpiryDate() {
-        cardNumberField.setText("1234567812345678");
-        cvvField.setText("123");
-        expiryDatePicker.setValue(null);
-        assertFalse(validateCardPaymentDetails(), "Data de expirare lipsește");
+    void testNullPaymentDate() {
+        PaymentRecord record = new PaymentRecord(1L, 10.0, "Cash", "", "RCPXYZ", null);
+        assertNull(record.getPaymentDate());
     }
 }
