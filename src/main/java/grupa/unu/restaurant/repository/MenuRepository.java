@@ -10,6 +10,8 @@ import java.util.List;
 
 import static grupa.unu.restaurant.RestaurantDb.getConnection;
 
+//gestioneaza operatiile cu baza de date din meniu permitand adaugarea , actualizarea,citirea acestora
+
 public class MenuRepository {
     public List<MenuItem> findAll() throws SQLException {
         String sql = "SELECT * FROM menu";

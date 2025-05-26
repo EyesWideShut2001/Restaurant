@@ -17,7 +17,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
+ //intermediaza comunicarea dinstre interfata grafica si baza de date
+//oferind metode pt adagarea, actualizarea si preluarea produselor prin MenuRepository
 public class MenuController {
     @FXML
     private VBox menuContainer;

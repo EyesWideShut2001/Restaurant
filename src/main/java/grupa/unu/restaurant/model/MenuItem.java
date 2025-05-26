@@ -2,6 +2,7 @@ package grupa.unu.restaurant.model;
 
 import javafx.beans.property.*;
 
+// defineste atribute comune ale unui produs din meniu (nume, ingrediante, vegetarian)
 public class MenuItem {
     private final LongProperty id;
     private final StringProperty name;

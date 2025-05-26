@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+// gestioneaza lsta de produse si pefra metode pt adaugrea acestora,afsarea, disponibilitatea
 public class Meniu {
     private List<MenuItem> items;
 
